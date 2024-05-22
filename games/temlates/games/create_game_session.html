@@ -1,0 +1,9 @@
+<!-- games/templates/games/create_game_session.html -->
+<h1>Создать игровую сессию</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Создать</button>
+</form>
+
+

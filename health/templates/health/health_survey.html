@@ -1,0 +1,9 @@
+<!-- health/templates/health/health_survey.html -->
+<h1>Заполнить опрос по здоровью ЖКТ</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить</button>
+</form>
+
+

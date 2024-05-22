@@ -1,0 +1,7 @@
+<!-- games/templates/games/game_session_list.html -->
+<h1>Мои игровые сессии</h1>
+<ul>
+    {% for session in game_sessions %}
+        <li>{{ session.game.name }}: {{ session.player1.username }} vs {{ session.player2.username }}</li>
+    {% endfor %}
+</ul>

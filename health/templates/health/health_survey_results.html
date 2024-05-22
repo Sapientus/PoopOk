@@ -1,0 +1,7 @@
+<!-- health/templates/health/health_survey_results.html -->
+<h1>Результаты опросов по здоровью ЖКТ</h1>
+<ul>
+    {% for survey in surveys %}
+        <li>{{ survey.date }} - {{ survey.bowel_movements_per_day }} раз в день, {{ survey.stool_consistency }}</li>
+    {% endfor %}
+</ul>

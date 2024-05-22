@@ -1,0 +1,8 @@
+<!-- stars/templates/stars/perform_action.html -->
+<h1>Выполнить действие</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Выполнить</button>
+</form>
+
