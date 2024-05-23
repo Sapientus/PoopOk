@@ -9,12 +9,9 @@ class Game(models.Model):
         return self.name
 
 class GameSession(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    player1 = models.ForeignKey(User, related_name='player1', on_delete=models.CASCADE)
-    player2 = models.ForeignKey(User, related_name='player2', on_delete=models.CASCADE)
-    winner = models.ForeignKey(User, related_name='winner', on_delete=models.CASCADE, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    finished_at = models.DateTimeField(null=True, blank=True)
+    name = models.CharField(max_length=100)
+    score = models.IntegerField()
 
     def __str__(self):
-        return f'{self.player1.username} vs {self.player2.username} - {self.game.name}'
+        return self.name
+

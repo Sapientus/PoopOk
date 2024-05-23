@@ -3,6 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
+from django.shortcuts import render
+
+
+# Ваши представления
 
 def post_list(request):
     posts = Post.objects.all()
