@@ -1,0 +1,37 @@
+<div id="header">
+    <span class="logo">PoopOK</span>
+    <ul class="menu">
+        <li {% if section == 'blog' %}{% endif %}>
+            <a href="{% url 'blog:post_list' %}">Main page</a>
+        </li>
+
+        <li {% if section == "something else" %}{% endif %}>
+            <a href="#">Something else</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li>
+            <a href="{% url 'edit' %}">Edit my page</a>
+        </li>
+        {% endif %}
+    </ul>
+    <span class="user">
+        {% if request.user.is_authenticated %}
+        <form action="{% url 'logout' %}" method="post">
+            <button type="submit">Logout</button>
+            {% csrf_token %}
+        </form>
+        <div>
+            <span> Hello {{ request.user.first_name|default:request.user.username }}</span>
+        </div>
+        {% else %}
+        <a href="{% url 'login' %}">
+            Log-in
+        </a>
+        {% endif %}
+        {% if not request.user.is_authenticated %}
+        <a href="{% url 'register' %}"> Registration
+            {% csrf_token %}
+            {% endif %}
+        </a>
+    </span>
+</div>

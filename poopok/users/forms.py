@@ -1,62 +1,58 @@
 import re
+from django.contrib.auth.models import User
 
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 
-from .models import CustomUser
+from django.contrib.auth import get_user_model
+
+from users.mixins.model_mixins import ValidationMixin
 
 
-class UserLoginForm(AuthenticationForm):
+class UserRegistrationForm(forms.ModelForm, ValidationMixin):
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
+
     class Meta:
-        model = CustomUser
-        fields = ('username', 'password')
+        model = get_user_model()
+        fields = ['username', 'first_name', 'email', 'phone_number']
+
+    # def clean_password2(self):
+    #     cd = self.cleaned_data
+    #     if cd['password'] != cd['password2']:
+    #         raise forms.ValidationError("Passwords don't match.")
+    #     return cd['password2']
+    #
+    # def clean_phone_number(self):
+    #     data = self.cleaned_data['phone_number']
+    #     if not data.isdigit():
+    #         raise forms.ValidationError("Тільки цифри")
+    #     pattern = re.compile(r'^\d{10}$')
+    #     if not pattern.match(data):
+    #         raise forms.ValidationError("Формат номера не коректний")
+    #
+    #     return data
 
 
-class UserRegistrationForm(UserCreationForm):
+class ProfileForm(forms.ModelForm, ValidationMixin):
     class Meta:
-        model = CustomUser
-        fields = (
-            'first_name',
-            'last_name',
-            'username',
-            'email',
-            'phone_number',
-            'password1',
-            'password2',
-        )
-
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    username = forms.CharField()
-    email = forms.CharField()
-    phone_number = forms.CharField()
-    password1 = forms.CharField()
-    password2 = forms.CharField()
-
-    def clean_phone_number(self):
-        data = self.cleaned_data['phone_number']
-        if not data.isdigit():
-            raise forms.ValidationError("Тільки цифри")
-        pattern = re.compile(r'^\d{10}$')
-        if not pattern.match(data):
-            raise forms.ValidationError("Формат номера не коректний")
-
-        return data
-
-
-class ProfileForm(UserChangeForm):
-    class Meta:
-        model = CustomUser
-        fields = (
+        model = get_user_model()
+        fields = [
             "image",
             "first_name",
             "last_name",
             "username",
             "email",
             "phone_number",
-        )
+        ]
 
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    username = forms.CharField()
-    email = forms.CharField()
+    # def clean_email(self):
+    #     data = self.cleaned_data['email']
+    #     qs = get_user_model().objects.exclude(
+    #         id=self.instance.id
+    #     ).filter(
+    #         email=data
+    #     )
+    #     if qs.exists():
+    #         raise forms.ValidationError('Email already in use.')
+    #     return data

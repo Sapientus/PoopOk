@@ -1,70 +1,60 @@
-from django.contrib import auth, messages
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.urls import reverse
 
-from .forms import UserLoginForm, UserRegistrationForm, ProfileForm
-
-
-def login(request):
-    if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = auth.authenticate(username=username, password=password)
-
-            if user:
-                auth.login(request, user)
-                messages.success(request, f"{username}, Ви успішно увійшли в акаунт")
-
-                return redirect(reverse('app_name:function-name'))
-    else:
-        form = UserLoginForm()
-    context = {
-        'title': 'PoopOk - Авторизація',
-        'form': form
-    }
-    return render(request, 'app_name:function-name', context)
-
-
-def registration(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.instance
-            auth.login(request, user)
-
-    else:
-        form = UserRegistrationForm()
-    context = {
-        'title': 'PoopOk - Реєстрація',
-        'form': form
-    }
-    return render(request, 'app_name:function-name', context)
+from .forms import UserRegistrationForm, ProfileForm
 
 
 @login_required
-def logout(request):
-    messages.success(request, f"{request.user.username}, Ви вийшли з акаунту")
-    auth.logout(request)
-    return redirect(reverse('app_name:function-name'))
+def dashboard(request):
+    return render(request, 'users/dashboard.html', {'section': 'dashboard'})
+
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            # Create a new user object but avoid saving it yet
+            new_user = user_form.save(commit=False)
+            # Set the chosen password
+            new_user.set_password(user_form.cleaned_data['password'])
+            # Save the User object
+            new_user.save()
+            return render(
+                request,
+                'users/register_done.html', {'new_user': new_user}
+            )
+        else:
+            # If the form is not valid, render the form again with errors
+            return render(
+                request,
+                'users/register.html', {'user_form': user_form})
+    else:
+        user_form = UserRegistrationForm()
+        return render(
+            request,
+            'users/register.html',
+            {'user_form': user_form}
+        )
 
 
 @login_required
-def profile(request):
+def edit(request):
     if request.method == 'POST':
-        form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Оновлення пройшло успішно")
-            return redirect(reverse('users:profile'))
-    else:
-        form = ProfileForm(instance=request.user)
+        user_form = ProfileForm(instance=request.user, data=request.POST, files=request.FILES)
 
-    context = {
-        'title': 'PoopOk - Кабінет',
-        'form': form,
-    }
-    return render(request, 'app_name:function-name', context)
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request, 'Updated was successful')
+            return redirect('blog:post_list')
+        else:
+            messages.error(request, 'Something went wrong')
+    else:
+        user_form = ProfileForm(instance=request.user)
+        return render(
+            request,
+            'users/edit.html',
+            {
+                'user_form': user_form,
+            }
+        )

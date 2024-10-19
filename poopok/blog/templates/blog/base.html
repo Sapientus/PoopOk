@@ -1,0 +1,32 @@
+{% load static %}
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+</head>
+<body>
+<div id="content">
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">
+            {{ message|safe }}
+            <a href="#" class="close">x</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+    {% include "includes/register_page.html" %}
+
+    {% block content %}
+    {% endblock %}
+</div>
+<div id="sidebar">
+    <h2>PoopOK</h2>
+    <p>Health control application</p>
+</div>
+</body>
+</html>

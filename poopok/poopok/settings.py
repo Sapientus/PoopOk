@@ -25,6 +25,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -35,7 +36,7 @@ INSTALLED_APPS = [
 
     'cloudinary',
 
-    'users',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,16 @@ cloudinary.config(
     api_key=(os.getenv('API_KEY')),
     api_secret=(os.getenv('API_SECRET')),
 )
+
+# EMAIL settings
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.getenv('SECRET_EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('SECRET_EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = os.getenv('SECRET_DEFAULT_FROM_EMAIL')
+
+LOGIN_REDIRECT_URL = 'blog:post_list'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
