@@ -31,11 +31,11 @@
                     </button>
 
                     <!-- Коментарі -->
-                    <button @click="toggleComments(index)" class="text-gray-600 dark:text-gray-400">Коментарі</button>
+                    <button  class="text-gray-600 dark:text-gray-400">Коментарі</button>
                 </div>
 
                 <!-- Форма додавання коментаря -->
-                <div v-if="post.showComments" class="mt-4">
+                <div class="mt-4">
                     <h3 class="text-gray-800 dark:text-gray-200 mb-2">Коментарі</h3>
                     <div v-for="(comment, commentIndex) in post.comments" :key="commentIndex"
                         class="p-2 bg-gray-100 dark:bg-gray-700 rounded mb-2">
@@ -64,7 +64,7 @@ const posts = ref([
         date: '18 жовтня 2024',
         text: 'Це мій перший пост!',
         likes: 10,
-        comments: [{ text: 'Це круто!' }, { text: 'Я згоден!' }],
+        comments: [{ text: 'Це круто!' }, { text: 'Я згоден!' },  { text: 'Я згоден!' },  { text: 'Я згоден!' },  { text: 'Я згоден!' }],
         showComments: false,
     },
     {
@@ -73,13 +73,39 @@ const posts = ref([
         date: '17 жовтня 2024',
         text: 'Що скажете про цей пост?',
         likes: 5,
-        comments: [{ text: 'Це чудово!' }],
+        comments: [{ text: 'Це чудово!' }, { text: 'Це чудово!' }, { text: 'Це чудово!' }, { text: 'Це чудово!' }],
+        showComments: false,
+    },
+    {
+        userAvatar: 'https://placehold.co/50x50',
+        username: 'Користувач 2',
+        date: '17 жовтня 2024',
+        text: 'Що скажете про цей пост?',
+        likes: 5,
+        comments: [{ text: 'Це чудово!' }, { text: 'Це чудово!' }, { text: 'Це чудово!' }, { text: 'Це чудово!' }],
+        showComments: false,
+    },
+    {
+        userAvatar: 'https://placehold.co/50x50',
+        username: 'Користувач 2',
+        date: '17 жовтня 2024',
+        text: 'Що скажете про цей пост?',
+        likes: 5,
+        comments: [{ text: 'Це чудово!' }, { text: 'Це чудово!' }, { text: 'Це чудово!' }, { text: 'Це чудово!' }, { text: 'Це чудово!' }],
         showComments: false,
     },
 ]);
 
 const newComments = ref(posts.value.map(() => ''));
 
+
+const trimComments = () => {
+    for (let i = 0; i < posts.value.length; i++) {
+        posts.value[i].comments = posts.value[i].comments.slice(0, 3);
+    }
+}
+
+trimComments();
 const likePost = (index) => {
     posts.value[index].likes++;
 };
