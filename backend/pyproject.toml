@@ -13,6 +13,11 @@ asyncpg = "^0.30.0"
 uvicorn = "^0.32.0"
 sqlalchemy = "^2.0.36"
 pydantic-settings = "^2.6.0"
+pyjwt = "^2.9.0"
+fastapi-mail = "^1.4.1"
+pydantic = {extras = ["email"], version = "^2.9.2"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.17"
 
 
 [build-system]
