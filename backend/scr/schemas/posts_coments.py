@@ -17,9 +17,10 @@ class CommentUpdate(CommentBase):
 class Comment(CommentBase):
     id: int
     post_id: int
+    user_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class PostBase(BaseModel):
@@ -38,7 +39,8 @@ class PostUpdate(PostBase):
 
 class Post(PostBase):
     id: int
+    user_id: int
     comments: List[Comment] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True

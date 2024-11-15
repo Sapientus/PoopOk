@@ -3,13 +3,14 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from scr.database.db import get_db
-from scr.routes import auth, users
+from scr.routes import auth, users, posts_comments
 
 app = FastAPI(title="PoopOK", description="Welcome to PoopOK API",
               swagger_ui_parameters={"syntaxHighlight.theme": "obsidian"})
 
 app.include_router(auth.router, prefix='/api', tags=['Authentication'])
 app.include_router(users.router, prefix='/api', tags=['Users'])
+app.include_router(posts_comments.router, prefix='/api', tags=['Comments and Posts'])
 
 
 @app.get("/api/healthchecker", tags=['Health checker'])

@@ -3,15 +3,15 @@ from typing import List
 from fastapi import FastAPI, Depends, HTTPException, APIRouter, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.scr.database.db import get_db
-from backend.scr.schemas.posts_coments import (
+from scr.database.db import get_db
+from scr.schemas.posts_coments import (
     Post,
     PostCreate,
     CommentCreate,
     PostUpdate,
     CommentUpdate
 )
-from backend.scr.repository.posts_comments import (
+from scr.repository.posts_comments import (
     get_posts,
     get_post,
     create_post,
@@ -22,15 +22,15 @@ from backend.scr.repository.posts_comments import (
     update_comment_crud
 )
 
-router = APIRouter()
+router = APIRouter(prefix='/auth', tags=['Comments and Posts'])
 
 
-@router.post("/posts/", response_model=Post)
+@router.post("/posts", response_model=Post)
 async def create_new_post(post: PostCreate, db: AsyncSession = Depends(get_db)):
     return await create_post(db=db, post=post)
 
 
-@router.get("/posts/", response_model=List[Post])
+@router.get("/posts", response_model=List[Post])
 async def read_posts(db: AsyncSession = Depends(get_db)):
     return await get_posts(db=db)
 
@@ -59,7 +59,7 @@ async def remove_post(post_id: int, db: AsyncSession = Depends(get_db)):
     return Response(status_code=204)
 
 
-@router.post("/posts/{post_id}/comments/", response_model=CommentCreate)
+@router.post("/posts/{post_id}/comments", response_model=CommentCreate)
 async def create_new_comment(post_id: int, comment: CommentCreate, db: AsyncSession = Depends(get_db)):
     return await create_comment(db=db, post_id=post_id, comment=comment)
 

@@ -3,8 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 
-from backend.scr.entity.posts_comments import Post, Comment
-from backend.scr.schemas.posts_coments import PostCreate, CommentCreate, PostUpdate, CommentUpdate
+from scr.entity.models import Post, Comment
+from scr.schemas.posts_coments import PostCreate, CommentCreate, PostUpdate, CommentUpdate
 
 
 async def get_posts(db: AsyncSession):
