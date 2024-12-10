@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "poopok(fastapi)"
+version = "0.1.0"
+description = ""
+authors = ["Barskyi <barskyi69@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.3"
+alembic = "^1.13.3"
+asyncpg = "^0.30.0"
+uvicorn = "^0.32.0"
+sqlalchemy = "^2.0.36"
+pydantic-settings = "^2.6.0"
+pyjwt = "^2.9.0"
+fastapi-mail = "^1.4.1"
+pydantic = {extras = ["email"], version = "^2.9.2"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.17"
+pytest-asyncio = "^0.24.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
