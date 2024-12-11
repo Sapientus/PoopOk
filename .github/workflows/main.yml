@@ -29,21 +29,24 @@ jobs:
         curl -sSL https://install.python-poetry.org | python3 -
         echo "$HOME/backend/.local/bin" >> $GITHUB_PATH
 
-    # Перехід у потрібну папку
-    - name: Cd to backend
-      run: cd backend
-
-    # 5. Запуск середовища
+    # 4. Запуск середовища
     - name: Run space
-      run: poetry shell  # Заміни на команду для запуску тестів
-      
-    # 4. Встановлення залежностей
+      run: |
+        cd backend
+        poetry shell  # Заміни на команду для запуску тестів
+        
+    # 5. Встановлення залежностей
     - name: Install dependencies
-      run: poetry install
+      run: |
+        cd backend
+        poetry install
+
       
-     # 4. Запуск серверу
+     # 6. Запуск серверу
     - name: Run server
-      run: PYTHONPATH=$(pwd) uvicorn backend.main:app --reload
+      run: |
+        cd backend
+        PYTHONPATH=$(pwd) uvicorn backend.main:app --reload
       
     # 5. Запуск тестів
     # - name: Run tests
