@@ -4,46 +4,55 @@ from typing import Optional, Literal
 from pydantic import BaseModel, EmailStr, Field, field_serializer
 
 
+class DateTimeSerializerMixin:
+    @field_serializer('created_at', 'updated_at')
+    def serialize_datetime(self, dt: datetime | None) -> str | None:
+        return dt.strftime("%d.%m.%Y") if dt else None
+
+    class Config:
+        from_attributes = True
+
+
+class BaseUserFields(BaseModel):
+    id: int = 1
+    username: str
+    email: EmailStr
+    confirmed: bool
+
+
+class UserBasicInfoSchema(BaseUserFields):
+    pass
+
+
 class UserSchema(BaseModel):
     username: str = Field(min_length=3, max_length=50)
     email: EmailStr
     password: str = Field(min_length=8, max_length=10)
 
 
-class UserResponse(BaseModel):
-    id: int = 1
-    username: str
-    email: EmailStr
-    stars: int | None
-    armor: int | None
-    is_frozen_until: datetime | None = None
-    confirmed: bool
+class UserResponseAboutMe(BaseUserFields, DateTimeSerializerMixin):
+    stars: Optional[int] = None
+    armor: Optional[int] = None
+    is_frozen_until: Optional[datetime] = None
     created_at: datetime
-    updated_at: Optional[datetime]
-
-    @field_serializer('created_at', 'updated_at')
-    def serialize_datetime(self, dt: datetime | None) -> str | None:
-        if dt is None:
-            return None
-        return dt.strftime("%d.%m.%Y")
-
-    class Config:
-        from_attributes = True
+    updated_at: Optional[datetime] = None
 
 
-class AccessTokenSchema(BaseModel):
+class TokenBaseSchema(BaseModel):
+    token_type: Literal['bearer'] = 'bearer'
+
+
+class AccessTokenSchema(TokenBaseSchema):
     access_token: str
-    token_type: Literal['bearer'] = 'bearer'
 
 
-class RefreshTokenSchema(BaseModel):
+class RefreshTokenSchema(TokenBaseSchema):
     refresh_token: str
-    token_type: Literal['bearer'] = 'bearer'
 
 
-class TokenSchema(AccessTokenSchema, RefreshTokenSchema):
+class TokenSchema(AccessTokenSchema, RefreshTokenSchema, UserResponseAboutMe):
     pass
 
 
 class RequestEmail(BaseModel):
-    email: str | EmailStr
+    email: EmailStr
