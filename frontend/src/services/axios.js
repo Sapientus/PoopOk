@@ -3,7 +3,7 @@ import router from '../router';  // Підключимо роутер для р�
 
 // Створюємо інстанс axios
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api/',  // Тут має бути твій бекенд API
+  // baseURL: 'http://localhost:8000/api/',  // Тут має бути твій бекенд API
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -36,7 +36,7 @@ api.interceptors.response.use(
       try {
         const refresh_token = localStorage.getItem('refresh_token');
         if (refresh_token) {
-          const response = await axios.post('http://localhost:8000/api/token/refresh/', { refresh: refresh_token });
+          const response = await axios.post('/api/auth/refresh_token', { refresh: refresh_token });
           localStorage.setItem('access_token', response.data.access);
           api.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
           originalRequest.headers['Authorization'] = `Bearer ${response.data.access}`;
@@ -45,7 +45,10 @@ api.interceptors.response.use(
       } catch (refreshError) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-        router.push({ name: 'Login' });  // Якщо оновлення не вдалось, редирект на логін
+        // router to login
+        router.push({ name: 'enter' });
+
+        return Promise.reject(refreshError);
       }
     }
 
