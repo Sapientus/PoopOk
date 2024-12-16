@@ -9,6 +9,15 @@ import { resolve } from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), vueDevTools()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000', // Ваш сервер
+        changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, ''), // Видаляє /api перед запитом до сервера
+      },
+    },
+  },
   build: {
     target: "esnext",
     sourcemap: true,
