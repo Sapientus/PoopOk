@@ -29,6 +29,7 @@ class User(JoinTime, Base):
     email: Mapped[str] = mapped_column(String(150), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
     refresh_token: Mapped[str] = mapped_column(String(255), nullable=True)
+    avatar: Mapped[str] = mapped_column(String(255), nullable=True)
     confirmed: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
     stars: Mapped[int] = mapped_column(default=10)
     armor: Mapped[int] = mapped_column(default=10)
@@ -37,8 +38,8 @@ class User(JoinTime, Base):
     is_frozen_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True,
                                                              default=None)
     attack_count: Mapped[int] = mapped_column(default=0)
-    posts = relationship("Post", back_populates="user")
-    comments = relationship("Comment", back_populates="user")
+    posts = relationship("Post", back_populates="user", lazy='joined')
+    comments = relationship("Comment", back_populates="user", lazy='joined')
 
 
 class PoopAttack(JoinTime, Base):
