@@ -37,8 +37,8 @@ class User(JoinTime, Base):
     is_frozen_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True,
                                                              default=None)
     attack_count: Mapped[int] = mapped_column(default=0)
-    posts = relationship("Post", back_populates="user")
-    comments = relationship("Comment", back_populates="user")
+    posts = relationship("Post", back_populates="user", lazy='joined')
+    comments = relationship("Comment", back_populates="user", lazy='joined')
 
 
 class PoopAttack(JoinTime, Base):
