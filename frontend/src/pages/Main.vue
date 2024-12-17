@@ -26,24 +26,21 @@
                 class="block text-gray-800 dark:text-gray-200"
                 >Ім'я користувача</label
               >
-              <input
-                type="text"
-                id="username"
-                v-model="registerForm.username"
-                required
-                class="mt-1 block w-full p-2 text-gray-800 bg-gray-200 dark:bg-gray-700 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              <BaseInput
+                  v-model="registerForm.username"
+                  :rules="[required, minLength(3)]"
+                  @validation-error="onValidationError('username', $event)"
               />
             </div>
             <div class="mb-4">
               <label for="email" class="block text-gray-800 dark:text-gray-200"
                 >Email</label
               >
-              <input
-                type="email"
-                id="email"
-                v-model="registerForm.email"
-                required
-                class="mt-1 block w-full p-2 text-gray-800 bg-gray-200 dark:bg-gray-700 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              <BaseInput
+                  v-model="registerForm.email"
+                  :rules="[required, isEmail]"
+                  type="email"
+                  @validation-error="onValidationError('email', $event)"
               />
             </div>
             <div class="mb-4">
@@ -53,61 +50,12 @@
                 >Пароль</label
               >
               <div class="relative">
-                <input
-                  :type="showPassword ? 'text' : 'password'"
-                  id="password"
-                  v-model="registerForm.password"
-                  required
-                  class="mt-1 block w-full p-2 text-gray-800 bg-gray-200 dark:bg-gray-700 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                <BaseInput
+                    v-model="registerForm.password"
+                    :rules="[required, minLength(6)]"
+                    type="password"
+                    @validation-error="onValidationError('password', $event)"
                 />
-                <button
-                  type="button"
-                  @click="togglePasswordVisibility"
-                  class="absolute inset-y-0 right-0 top-1/2 -translate-y-2/4 pr-3 flex items-center text-sm leading-5"
-                >
-                  <svg
-                    v-if="showPassword"
-                    class="h-5 w-5 text-gray-500"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.274.823-.68 1.597-1.196 2.3M15 12a3 3 0 01-6 0m6 0a3 3 0 01-6 0m6 0c0 1.657-1.343 3-3 3s-3-1.343-3-3m6 0c0-1.657-1.343-3-3-3s-3 1.343-3 3"
-                    />
-                  </svg>
-                  <svg
-                    v-else
-                    class="h-5 w-5 text-gray-500"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a10.05 10.05 0 011.196-2.3m1.196-2.3A10.05 10.05 0 0112 5c4.477 0 8.268 2.943 9.542 7-.274.823-.68 1.597-1.196 2.3M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M3 3l18 18"
-                    />
-                  </svg>
-                </button>
               </div>
             </div>
             <button
@@ -146,12 +94,11 @@
               <label for="email" class="block text-gray-800 dark:text-gray-200"
                 >Email</label
               >
-              <input
-                type="email"
-                id="email"
-                v-model="loginForm.username"
-                required
-                class="mt-1 block w-full p-2 text-gray-800 bg-gray-200 dark:bg-gray-700 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              <BaseInput
+                  v-model="loginForm.email"
+                  :rules="[required, isEmail]"
+                  type="email"
+                  @validation-error="onValidationError('email', $event)"
               />
             </div>
             <div class="mb-4">
@@ -161,61 +108,12 @@
                 >Пароль</label
               >
               <div class="relative">
-                <input
-                  :type="showPassword ? 'text' : 'password'"
-                  id="password"
-                  v-model="loginForm.password"
-                  required
-                  class="mt-1 block w-full p-2 text-gray-800 bg-gray-200 dark:bg-gray-700 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                <BaseInput
+                    v-model="loginForm.password"
+                    :rules="[required, minLength(6)]"
+                    type="password"
+                    @validation-error="onValidationError('password', $event)"
                 />
-                <button
-                  type="button"
-                  @click="togglePasswordVisibility"
-                  class="absolute inset-y-0 right-0 top-1/2 -translate-y-2/4 pr-3 flex items-center text-sm leading-5"
-                >
-                  <svg
-                    v-if="showPassword"
-                    class="h-5 w-5 text-gray-500"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.274.823-.68 1.597-1.196 2.3M15 12a3 3 0 01-6 0m6 0a3 3 0 01-6 0m6 0c0 1.657-1.343 3-3 3s-3-1.343-3-3m6 0c0-1.657-1.343-3-3-3s-3 1.343-3 3"
-                    />
-                  </svg>
-                  <svg
-                    v-else
-                    class="h-5 w-5 text-gray-500"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a10.05 10.05 0 011.196-2.3m1.196-2.3A10.05 10.05 0 0112 5c4.477 0 8.268 2.943 9.542 7-.274.823-.68 1.597-1.196 2.3M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M3 3l18 18"
-                    />
-                  </svg>
-                </button>
               </div>
             </div>
             <button
@@ -253,8 +151,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useUserStore } from "../stores/authStore";
+import BaseInput from "@/UI/BaseInput.vue";
+import { required, minLength, isEmail } from "@/utils/validationRules";
 
 const activeTab = ref("register"); // Вкладки логін/реєстрація
 
@@ -269,17 +169,31 @@ const registerForm = ref({
   password: "",
 });
 
-const showPassword = ref(false);
-const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value;
-};
+const errors = ref({
+  username: "",
+  email: "",
+  password: "",
+});
+
+
+// Обробник помилок
+function onValidationError(field, message) {
+  errors.value[field] = message;
+}
+
+// Перевірка валідності форми
+const formValid = computed(() =>
+    Object.values(errors.value).every((error) => !error)
+);
 
 const handleLogin = async () => {
   await useUserStore.login(loginForm.value);
 };
 
 const handleRegister = async () => {
-  await useUserStore.signUp(registerForm.value);
-  activeTab.value = "email";
+  if (formValid.value) {
+    await useUserStore.signUp(registerForm.value);
+    activeTab.value = "email";
+  }
 };
 </script>
