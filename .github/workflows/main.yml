@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checkout репозиторію
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Встановлення Python
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "^3.12"  # Заміни на версію Python, яку використовує проект
+
+    # 3. Встановлення Poetry
+    - name: Install Poetry
+      run: pip install poetry
+        
+    # 4. Встановлення залежностей
+    - name: Install dependencies
+      working-directory: backend
+      run: poetry install
+
+      
+     # 5. Запуск серверу
+    - name: Start server
+      working-directory: backend
+      run: poetry run uvicorn main:app --host 0.0.0.0 --port 8000
+
+      
+    # 5. Запуск тестів
+    # - name: Run tests
+    #  run: poetry run pytest  # Заміни на команду для запуску тестів
+      
+    
