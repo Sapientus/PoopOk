@@ -18,6 +18,11 @@ class Config(BaseSettings):
     MAIL_PORT: int
     MAIL_SERVER: str
 
+    """Cloud Service"""
+    CLOUD_NAME: str
+    API_KEY: str
+    API_SECRET: str
+
     model_config = ConfigDict(extra='ignore', env_file=".env", env_file_encoding="utf-8")  # noqa
 
 

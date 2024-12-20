@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.responses import JSONResponse
 
 from src.database.db import get_db
-from src.schemas.user import UserSchema, UserResponse, TokenSchema, RequestEmail
+from src.schemas.user import UserSchema, TokenSchema, RequestEmail, UserBasicInfoSchema, RefreshTokenSchema
 from src.repository import users as repositories_users
 from src.services.auth import auth_service, password_service
 from src.services.email import send_email, send_reset_password_email
@@ -13,7 +13,8 @@ router = APIRouter(prefix='/auth', tags=['Authentication'])
 get_refresh_token = HTTPBearer()
 
 
-@router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED, description="Реєстрація.")
+@router.post("/signup", response_model=UserBasicInfoSchema, status_code=status.HTTP_201_CREATED,
+             description="Реєстрація.")
 async def signup(body: UserSchema, bt: BackgroundTasks, request: Request, db: AsyncSession = Depends(get_db)):
     exist_user = await repositories_users.get_user_by_email(body.email, db)
 
@@ -40,10 +41,24 @@ async def login(body: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = 
     access_token = await auth_service.create_access_token(data={"sub": user.email})
     refresh_token = await auth_service.create_refresh_token(data={"sub": user.email})
     await repositories_users.update_token(user, refresh_token, db)
-    return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
+
+    return {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "stars": user.stars,
+        "armor": user.armor,
+        "avatar": user.avatar,
+        "is_frozen_until": user.is_frozen_until,
+        "confirmed": user.confirmed,
+        "created_at": user.created_at,
+        "access_token": access_token,
+        "refresh_token": refresh_token,
+        "token_type": "bearer",
+    }
 
 
-@router.get('/refresh_token', response_model=TokenSchema)
+@router.get('/refresh_token')
 async def refresh_token(
         credentials: HTTPAuthorizationCredentials = Depends(get_refresh_token),
         db: AsyncSession = Depends(get_db)
