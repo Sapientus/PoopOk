@@ -1,12 +1,15 @@
 from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException
+
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.i18n.translations import translator
+
 from src.database.db import get_db
 from src.services.armor_system import get_current_armor_status, update_user_armor, apply_armor_bonus, ArmorType
 from src.services.auth import auth_service
 from src.entity.models import User
-
 
 router_armor = APIRouter(prefix="/armor", tags=["Armor"])
 
@@ -27,11 +30,12 @@ async def get_armor_status(
 async def update_armor_type(
         armor_type: ArmorType,
         db: AsyncSession = Depends(get_db),
-        current_user: User = Depends(auth_service.get_current_user)
+        current_user: User = Depends(auth_service.get_current_user),
+        t: callable = Depends(translator)
 ):
     try:
         await update_user_armor(current_user, armor_type, db)
-        return {"message": f"Armor type updated to {armor_type.value}"}
+        return {"message": t("armor.success.type_updated").format(armor_type=armor_type.value)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

@@ -62,7 +62,7 @@ async def check_achievement_conditions(user: User, achievement_type: Achievement
     return False
 
 
-async def grant_achievement(user: User, achievement_type: AchievementType, db: AsyncSession):
+async def grant_achievement(user: User, achievement_type: AchievementType, db: AsyncSession, t: callable):
     """Видає досягнення користувачу та нараховує нагороду"""
     # Перевіряємо чи нема вже цього досягнення
     query = select(UserAchievement).where(
@@ -72,7 +72,7 @@ async def grant_achievement(user: User, achievement_type: AchievementType, db: A
 
     result = await db.execute(query)
     if result.scalar_one_or_none():
-        return False, "Achievement already earned"
+        return False, t("achievements.info.already_earned")
 
     # Створюємо запис про досягнення
     achievement = UserAchievement(
@@ -88,28 +88,35 @@ async def grant_achievement(user: User, achievement_type: AchievementType, db: A
 
     db.add(achievement)
     await db.commit()
-
     return True, {
         "type": achievement_type.value,
+        "name": t(f"achievements.types.{achievement_type.value}.name"),
+        "description": t(f"achievements.types.{achievement_type.value}.description"),
         "rewards": {
-            "stars": reward["stars"],
-            "armor": reward["armor"]
+            "stars": {
+                "count": reward["stars"],
+                "message": t("achievements.rewards.stars_earned").format(count=reward["stars"])
+            },
+            "armor": {
+                "count": reward["armor"],
+                "message": t("achievements.rewards.armor_earned").format(count=reward["armor"])
+            }
         }
     }
 
 
-async def process_achievements(user: User, db: AsyncSession):
+async def process_achievements(user: User, db: AsyncSession, t: callable):
     """Перевіряє та видає всі доступні досягнення"""
     results = []
     for achievement_type in AchievementType:
         if await check_achievement_conditions(user, achievement_type, db):
-            success, result = await grant_achievement(user, achievement_type, db)
+            success, result = await grant_achievement(user, achievement_type, db, t)
             if success:
                 results.append(result)
     return results
 
 
-async def fetch_user_achievements(user: User, db: AsyncSession):
+async def fetch_user_achievements(user: User, db: AsyncSession, t: callable):
     """Отримує всі досягнення користувача"""
     query = select(UserAchievement).where(
         UserAchievement.user_id == user.id
@@ -120,7 +127,7 @@ async def fetch_user_achievements(user: User, db: AsyncSession):
 
     if not achievements:
         return {
-            "message": "There are no achievements so far"
+            "message": t("achievements.info.no_achievements")
         }
 
     return [

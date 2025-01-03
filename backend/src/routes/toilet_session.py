@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 
 from src.database.db import get_db
 from src.entity.models import User
+from src.i18n.translations import translator
 from src.repository.toilet_session_king import get_current_king, king_leaderboard
 from src.repository.toilet_session import start_toilet_session, end_toilet_session, get_user_session_stats
 from src.schemas.schemas_yeti import YetiStatusResponse
@@ -25,29 +26,26 @@ router = APIRouter(prefix='/toilet-sessions', tags=['Toilet Sessions'])
 async def start_session(
         _: ToiletSessionStart,
         current_user: User = Depends(auth_service.get_current_user),
-        db: AsyncSession = Depends(get_db)
+        db: AsyncSession = Depends(get_db),
+        t: callable = Depends(translator)
 ):
     try:
-        session = await start_toilet_session(current_user, db)
+        session = await start_toilet_session(current_user, db, t)
         return session
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e)
         )
-    except RuntimeError as e:
-        # Наприклад, логування і підняття зрозумілої помилки для клієнта
-        print(f"Runtime error in start_session: {e}")
+    except RuntimeError:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Internal server error occurred while starting a session."
+            detail=t("common.errors.internal_error")
         )
     except Exception as e:
-        # Загальний випадок для неочікуваних винятків
-        print(f"Unhandled exception in start_session: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An unexpected error occurred."
+            detail=t("common.errors.unexpected_error").format(e=e)
         )
 
 
@@ -56,14 +54,15 @@ async def start_session(
 async def end_session(
         _: ToiletSessionEnd,
         current_user: User = Depends(auth_service.get_current_user),
-        db: AsyncSession = Depends(get_db)
+        db: AsyncSession = Depends(get_db),
+        t: callable = Depends(translator)
 ):
     try:
-        session, stars_change, king_info = await end_toilet_session(current_user, db)  # king_info
+        session, stars_change, king_info = await end_toilet_session(current_user, db, t)  # king_info
         message = (
-            f"Session ended successfully! You earned {stars_change} stars for staying within the time limit!"
+            t("toilet.success.stars_earned").format(stars=stars_change)
             if stars_change > 0 else
-            f"Session ended. You lost {abs(stars_change)} stars for exceeding the time limit."
+            t("toilet.success.stars_lost").format(stars=abs(stars_change))
         )
         return ToiletSessionEndResponse(
             session=session,
@@ -88,12 +87,12 @@ async def get_stats(
 
 
 @router.get("/current", description="Отримання інформації про поточного короля")
-async def get_current_toilet_king(db: AsyncSession = Depends(get_db)):
+async def get_current_toilet_king(db: AsyncSession = Depends(get_db), t: callable = Depends(translator)):
     king = await get_current_king(db)
     if not king:
         raise HTTPException(
             status_code=404,
-            detail="No toilet king for today yet"
+            detail=t("toilet.errors.no_current_king")
         )
     return king
 

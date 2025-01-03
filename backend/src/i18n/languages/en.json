@@ -1,0 +1,195 @@
+{
+  "user": {
+    "not_found": "User not found.",
+    "own_profile_error": "You cannot view your own profile",
+    "avatar": {
+      "update_success": "Avatar successfully updated",
+      "invalid_type": "Invalid file type. Only JPEG, PNG, and GIF are allowed",
+      "file_too_large": "File too large. Maximum size is {max_size} MB"
+    }
+  },
+  "health": {
+    "welcome": "Welcome to FastAPI!",
+    "db_config_error": "Database is not configured correctly",
+    "db_connection_error": "Error connecting to the database"
+  },
+  "cloud": {
+    "errors": {
+      "cloudinary_error": "Cloudinary API error",
+      "operation_failed": "Operation failed",
+      "timeout": "Request timed out",
+      "too_many_redirects": "Too many redirects",
+      "http_error": "HTTP error",
+      "io_error": "I/O error",
+      "file_not_found": "File not found",
+      "unauthorized": "Unauthorized: {error}",
+      "bad_request": "Bad request: {error}",
+      "unexpected": "Unexpected error: {error}",
+      "invalid_type": "Invalid file type. Only JPEG, PNG, and GIF are allowed",
+      "file_too_large": "File too large. Maximum size is {size} MB"
+    }
+  },
+  "toilet_session": {
+    "start": {
+      "success": "Session started successfully",
+      "already_active": "You already have an active session",
+      "error": "Error creating session: {error}"
+    },
+    "end": {
+      "success_earned": "Session ended successfully! You earned {stars} stars for staying within the time limit!",
+      "success_lost": "Session ended. You lost {stars} stars for exceeding the time limit.",
+      "no_active": "You don't have an active session",
+      "error": "Error ending session: {error}"
+    },
+    "king": {
+      "current": {
+        "not_found": "No toilet king for today yet",
+        "title": "Current Toilet King"
+      },
+      "leaderboard": {
+        "title": "Toilet Kings Leaderboard",
+        "period": "For the last {days} days"
+      }
+    },
+    "stats": {
+      "title": "Session Statistics",
+      "not_found": "Statistics not found",
+      "error": "Error getting statistics: {error}"
+    },
+    "yeti": {
+      "title": "Most Attacked Users",
+      "frozen_status": "Frozen until {date}",
+      "not_frozen": "Not frozen"
+    }
+  },
+  "curse": {
+    "errors": {
+      "user_not_found": "User not found",
+      "insufficient_stars": "Insufficient stars to remove the curse {cost}",
+      "no_active_curse": "No active curse found",
+      "already_cursed": "User is already cursed",
+      "server_error": "Server error occurred: {error}",
+      "invalid_duration": "Invalid curse duration",
+      "cannot_remove": "Cannot remove curse: {reason}",
+      "not_cursed": "User is not cursed",
+      "min_duration": "Curse duration must be at least 1 day",
+      "self_curse_not_allowed": "You cannot cast a curse on yourself."
+    },
+    "success": {
+      "curse_applied": "Curse applied until {date}",
+      "curse_removed": "Curse removed successfully",
+      "applied": "Curse applied until {curse_end}"
+    }
+  },
+  "auth": {
+    "errors": {
+      "account_exists": "Account already exists",
+      "invalid_email": "Invalid email",
+      "email_not_confirmed": "Email not confirmed",
+      "invalid_password": "Invalid password",
+      "verification_error": "Verification error",
+      "authentication_required": "Authentication required. Please log in to write a comment.",
+      "no_refresh_token": "No refresh token provided",
+      "invalid_refresh_token": "Invalid refresh token: {error}",
+      "token_validation_failed": "Token validation failed: {error}",
+      "user_not_found": "User not found",
+      "token_mismatch": "Stored refresh token does not match provided token",
+      "token_refresh_failed": "Token refresh failed: {error}"
+    },
+    "success": {
+      "email_already_confirmed": "Your email is already confirmed",
+      "email_confirmed": "Email confirmed",
+      "check_email": "Check your email for confirmation",
+      "reset_email_sent": "Password reset email sent. Please check your email",
+      "password_updated": "Password updated successfully",
+      "token_refreshed": "Token successfully refreshed"
+    }
+  },
+  "attack": {
+    "errors": {
+      "user_frozen": "User is currently frozen",
+      "not_enough_stars": "Not enough stars"
+    },
+    "success": {
+      "attack_successful": "Attack successful!"
+    }
+  },
+  "armor": {
+    "errors": {
+      "update_failed": "Failed to update armor: {error}"
+    },
+    "success": {
+      "type_updated": "Armor type updated to {armor_type}"
+    }
+  },
+  "achievements": {
+    "errors": {
+      "check_failed": "Failed to check achievements: {error}"
+    },
+    "success": {
+      "check_completed": "Achievement check completed"
+    },
+    "rewards": {
+      "stars_earned": "Earned stars: {count}",
+      "armor_earned": "Earned armor: {count}"
+    },
+    "types": {
+      "toilet_master": {
+        "name": "Toilet Master",
+        "description": "Complete 100 successful toilet visits"
+      },
+      "poop_warrior": {
+        "name": "Poop Warrior",
+        "description": "Successfully execute 50 poop attacks"
+      },
+      "armor_king": {
+        "name": "Armor King",
+        "description": "Reach the maximum armor level"
+      },
+      "star_collector": {
+        "name": "Star Collector",
+        "description": "Collect 100 stars"
+      },
+      "curse_breaker": {
+        "name": "Curse Breaker",
+        "description": "Remove 5 Yeti curses"
+      }
+    },
+    "info": {
+      "no_achievements": "No achievements yet",
+      "already_earned": "Achievement already earned"
+    }
+  },
+  "common": {
+    "errors": {
+      "database_error": "Database error: {error}",
+      "session_start_failed": "Failed to start session for user {username}",
+      "internal_error": "Internal server error occurred while starting a session.",
+      "unexpected_error": "An unexpected error occurred."
+    }
+  },
+  "toilet": {
+    "errors": {
+      "cannot_start": "{message}",
+      "no_active_session": "No active toilet session found",
+      "no_current_king": "No toilet king for today yet",
+      "active_session_exists": "Cannot start new session. You already have an active session",
+      "recent_session_exists": "Cannot start new session. Please wait one hour between sessions"
+    },
+    "success": {
+      "session_started": "Toilet session started successfully",
+      "session_ended": "Toilet session ended successfully",
+      "stars_earned": "Session ended successfully! You earned {stars} stars for staying within the time limit!",
+      "stars_lost": "Session ended. You lost {stars} stars for exceeding the time limit."
+    }
+  },
+  "posts": {
+    "errors": {
+      "not_found": "Post not found",
+      "comments_error": "Comment not found"
+    },
+    "success": {
+      "retrieved": "Post successfully retrieved"
+    }
+  }
+}

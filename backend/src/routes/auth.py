@@ -3,8 +3,10 @@ from fastapi.security import OAuth2PasswordRequestForm, HTTPAuthorizationCredent
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.responses import JSONResponse
 
+from src.i18n.translations import translator
+
 from src.database.db import get_db
-from src.schemas.user import UserSchema, TokenSchema, RequestEmail, UserBasicInfoSchema, RefreshTokenSchema
+from src.schemas.user import UserSchema, TokenSchema, RequestEmail, UserBasicInfoSchema
 from src.repository import users as repositories_users
 from src.services.auth import auth_service, password_service
 from src.services.email import send_email, send_reset_password_email
@@ -15,11 +17,16 @@ get_refresh_token = HTTPBearer()
 
 @router.post("/signup", response_model=UserBasicInfoSchema, status_code=status.HTTP_201_CREATED,
              description="Реєстрація.")
-async def signup(body: UserSchema, bt: BackgroundTasks, request: Request, db: AsyncSession = Depends(get_db)):
+async def signup(body: UserSchema,
+                 bt: BackgroundTasks,
+                 request: Request,
+                 db: AsyncSession = Depends(get_db),
+                 t: callable = Depends(translator)
+                 ):
     exist_user = await repositories_users.get_user_by_email(body.email, db)
 
     if exist_user:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Account already exists")
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=t("auth.errors.account_exists"))
     body.password = password_service.get_password_hash(body.password)
     new_user = await repositories_users.create_user(body, db)
     bt.add_task(send_email, new_user.email, new_user.username, str(request.base_url))
@@ -29,14 +36,17 @@ async def signup(body: UserSchema, bt: BackgroundTasks, request: Request, db: As
 @router.post("/login", response_model=TokenSchema,
              description="Отримаємо рефреш та ексес токени, але перед тим потрібно отримати confirm через "
                          "confirmed_email, токен приходить на електронну пошту при реєстрації.")
-async def login(body: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)):
+async def login(body: OAuth2PasswordRequestForm = Depends(),
+                db: AsyncSession = Depends(get_db),
+                t: callable = Depends(translator)
+                ):
     user = await repositories_users.get_user_by_email(body.username, db)
     if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=t("auth.errors.invalid_email"))
     if not user.confirmed:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Email not confirmed")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=t("auth.errors.email_not_confirmed"))
     if not password_service.verify_password(body.password, user.password):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=t("auth.errors.invalid_password"))
     # Generate JWT
     access_token = await auth_service.create_access_token(data={"sub": user.email})
     refresh_token = await auth_service.create_refresh_token(data={"sub": user.email})
@@ -61,8 +71,9 @@ async def login(body: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = 
 @router.get('/refresh_token')
 async def refresh_token(
         credentials: HTTPAuthorizationCredentials = Depends(get_refresh_token),
-        db: AsyncSession = Depends(get_db)
-) -> JSONResponse:
+        db: AsyncSession = Depends(get_db),
+        t: callable = Depends(translator)
+        ) -> JSONResponse:
     """
     Endpoint to refresh access token using refresh token
     """
@@ -71,7 +82,7 @@ async def refresh_token(
         if not token:
             return JSONResponse(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                content={"detail": "No refresh token provided"}
+                content={"detail": t("auth.errors.no_refresh_token")}
             )
 
         try:
@@ -80,12 +91,12 @@ async def refresh_token(
         except HTTPException as e:
             return JSONResponse(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                content={"detail": f"Invalid refresh token: {str(e.detail)}"}
+                content={"detail": t("auth.errors.invalid_refresh_token").format(error=str(e.detail))}
             )
         except Exception as e:
             return JSONResponse(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                content={"detail": f"Token validation failed: {str(e)}"}
+                content={"detail": t("auth.errors.token_validation_failed").format(error=str(e))}
             )
 
         # Перевіряємо користувача та його refresh_token
@@ -93,14 +104,14 @@ async def refresh_token(
         if not user:
             return JSONResponse(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                content={"detail": "User not found"}
+                content={"detail": t("auth.errors.user_not_found")}
             )
 
         if user.refresh_token != token:
             await repositories_users.update_token(user, None, db)
             return JSONResponse(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                content={"detail": "Stored refresh token does not match provided token"}
+                content={"detail": t("auth.errors.token_mismatch")}
             )
 
         # Генеруємо нові токени
@@ -122,38 +133,48 @@ async def refresh_token(
     except Exception as e:
         return JSONResponse(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            content={"detail": f"Token refresh failed: {str(e)}"}
+            content={"detail": t("auth.errors.token_refresh_failed").format(error=str(e))}
         )
 
 
 @router.get('/confirmed_email/{token}',
             description="Після реєстрації токен з ел.пошти вставляємо сюди щоб отримати confirmed = True.")
-async def confirmed_email(token: str, db: AsyncSession = Depends(get_db)):
+async def confirmed_email(token: str,
+                          db: AsyncSession = Depends(get_db),
+                          t: callable = Depends(translator)
+                          ):
     email = await auth_service.get_email_from_token(token)
     user = await repositories_users.get_user_by_email(email, db)
     if user is None:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Verification error")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=t("auth.errors.verification_error"))
     if user.confirmed:
-        return {"message": "Your email is already confirmed"}
+        return {"message": t("auth.success.email_confirmed")}
     await repositories_users.confirmed_email(email, db)
-    return {"message": "Email confirmed"}
+    return {"message": t("auth.success.email_confirmed")}
 
 
 @router.post('/request_email', description="Для повторного відправлення з підтвердженням та токеном.")
-async def request_email(body: RequestEmail, background_tasks: BackgroundTasks, request: Request,
-                        db: AsyncSession = Depends(get_db)):
+async def request_email(body: RequestEmail,
+                        background_tasks: BackgroundTasks,
+                        request: Request,
+                        db: AsyncSession = Depends(get_db),
+                        t: callable = Depends(translator)
+                        ):
     user = await repositories_users.get_user_by_email(body.email, db)
 
     if user.confirmed:
-        return {"message": "Your email is already confirmed"}
+        return {"message": t("auth.success.email_already_confirmed")}
     if user:
         background_tasks.add_task(send_email, user.email, user.username, str(request.base_url))
-    return {"message": "Check your email for confirmation."}
+    return {"message": t("auth.success.check_email")}
 
 
 @router.post('/request_password_reset')
-async def request_password_reset(body: RequestEmail, background_tasks: BackgroundTasks,
-                                 db: AsyncSession = Depends(get_db)):
+async def request_password_reset(body: RequestEmail,
+                                 background_tasks: BackgroundTasks,
+                                 db: AsyncSession = Depends(get_db),
+                                 t: callable = Depends(translator)
+                                 ):
     user = await repositories_users.get_user_by_email(body.email, db)
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -162,11 +183,14 @@ async def request_password_reset(body: RequestEmail, background_tasks: Backgroun
 
     background_tasks.add_task(send_reset_password_email, user.email, user.username, token)
 
-    return {"message": "Password reset email sent. Please check your email."}
+    return {"message": t("auth.success.reset_email_sent")}
 
 
 @router.post('/reset_password/{token}', description="Пропихуємо токен з емейлу")
-async def reset_password(token: str, new_password: str, db: AsyncSession = Depends(get_db)):
+async def reset_password(token: str,
+                         new_password: str, db: AsyncSession = Depends(get_db),
+                         t: callable = Depends(translator)
+                         ):
     email = await auth_service.verify_password_reset_token(token)
     user = await repositories_users.get_user_by_email(email, db)
 
@@ -177,4 +201,4 @@ async def reset_password(token: str, new_password: str, db: AsyncSession = Depen
     user.password = hashed_password
     await db.commit()
 
-    return {"message": "Password updated successfully"}
+    return {"message": t("auth.success.password_updated")}

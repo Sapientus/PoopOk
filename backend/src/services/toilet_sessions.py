@@ -17,19 +17,19 @@ async def is_session_within_limit(session: ToiletSession) -> bool:
     return session.duration <= MAX_TOILET_TIME  # type: ignore
 
 
-async def can_start_new_session(user: User, db: AsyncSession) -> tuple[bool, str]:
+async def can_start_new_session(user: User, db: AsyncSession, t: callable) -> tuple[bool, str]:
     """Перевіряє чи може користувач почати нову сесію"""
     # Перевіряємо чи немає активної сесії
     active_session = await get_active_session(user.id, db)
     if active_session:
-        return False, "Cannot start new session"
+        return False, t("toilet.errors.active_session_exists")
 
     # Перевіряємо чи не були какульки протягом останньої години
     else:
         recent_session = await had_recent_session(user.id, db, STARS_PENALTY)
 
     if recent_session:
-        return False, "Cannot start new session"
+        return False, t("toilet.errors.recent_session_exists")
 
     return True, "OK"
 

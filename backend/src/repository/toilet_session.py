@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.entity.models import User, ToiletSession
@@ -7,9 +8,9 @@ from src.services.toilet_sessions import STARS_REWARD, MAX_TOILET_TIME, STARS_PE
 from src.utils.toilet_session_utils import get_active_session
 
 
-async def start_toilet_session(user: User, db: AsyncSession) -> ToiletSession:
+async def start_toilet_session(user: User, db: AsyncSession, t: callable) -> ToiletSession:
     try:
-        can_start, message = await can_start_new_session(user, db)
+        can_start, message = await can_start_new_session(user, db, t)
         if not can_start:
             raise ValueError(message)
 
@@ -26,14 +27,14 @@ async def start_toilet_session(user: User, db: AsyncSession) -> ToiletSession:
     except ValueError:
         raise
     except Exception as e:
-        raise RuntimeError(f"Failed to start session for user {user.username}") from e
+        raise RuntimeError(t("common.errors.session_start_failed").format(username=user.username)) from e
 
 
-async def end_toilet_session(user: User, db: AsyncSession) -> tuple[ToiletSession, int, dict | None]:
+async def end_toilet_session(user: User, db: AsyncSession, t: callable) -> tuple[ToiletSession, int, dict | None]:
     """Завершує сесію і повертає кількість отриманих/втрачених зірок та інфо про короля параші"""
     session = await get_active_session(user.id, db)
     if not session:
-        raise ValueError("No active toilet session found")
+        raise ValueError(t("toilet.errors.no_active_session"))
 
     # Завершуємо сесію як раніше
     end_time = datetime.now(timezone.utc)

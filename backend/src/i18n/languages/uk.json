@@ -1,0 +1,193 @@
+{
+  "user": {
+    "not_found": "Користувача не знайдено",
+    "own_profile_error": "Ви не можете переглядати власний профіль",
+    "avatar": {
+      "update_success": "Аватар успішно оновлено",
+      "invalid_type": "Неправильний тип файлу. Дозволені тільки JPEG, PNG та GIF",
+      "file_too_large": "Файл завеликий. Максимальний розмір {size} МБ"
+    }
+  },
+  "health": {
+    "welcome": "Ласкаво просимо до FastAPI!",
+    "db_config_error": "База даних налаштована неправильно: {error}",
+    "db_connection_error": "Помилка підключення до бази даних: {error}"
+  },
+  "cloud": {
+    "errors": {
+      "cloudinary_error": "Помилка API Cloudinary: {error}",
+      "operation_failed": "Операція не вдалася: {error}",
+      "timeout": "Час очікування минув: {error}",
+      "too_many_redirects": "Забагато перенаправлень: {error}",
+      "http_error": "HTTP помилка: {error}",
+      "io_error": "Помилка вводу/виводу: {error}",
+      "file_not_found": "Файл не знайдено: {error}",
+      "unauthorized": "Не авторизовано: {error}",
+      "bad_request": "Некоректний запит: {error}",
+      "unexpected": "Неочікувана помилка: {error}",
+      "invalid_type": "Неправильний тип файлу. Дозволені тільки JPEG, PNG та GIF",
+      "file_too_large": "Файл завеликий. Максимальний розмір {size} МБ"
+    }
+  },
+  "toilet_session": {
+    "start": {
+      "success": "Сесію успішно розпочато",
+      "already_active": "У вас вже є активна сесія",
+      "error": "Помилка при створенні сесії: {error}"
+    },
+    "end": {
+      "success_earned": "Сесію завершено успішно! Ви заробили {stars} зірок за дотримання часового ліміту!",
+      "success_lost": "Сесію завершено. Ви втратили {stars} зірок за перевищення часового ліміту.",
+      "no_active": "У вас немає активної сесії",
+      "error": "Помилка при завершенні сесії: {error}"
+    },
+    "king": {
+      "current": {
+        "not_found": "Сьогодні ще немає короля параші",
+        "title": "Поточний король параші"
+      },
+      "leaderboard": {
+        "title": "Лідерборд королів параші",
+        "period": "За останні {days} днів"
+      }
+    },
+    "stats": {
+      "title": "Статистика сесій",
+      "not_found": "Статистика не знайдена",
+      "error": "Помилка при отриманні статистики: {error}"
+    },
+    "yeti": {
+      "title": "Найбільш атаковані користувачі",
+      "frozen_status": "Заморожений до {date}",
+      "not_frozen": "Не заморожений"
+    }
+  },
+  "curse": {
+    "errors": {
+      "user_not_found": "Користувача не знайдено",
+      "insufficient_stars": "Недостатньо зірок для зняття прокляття {cost}",
+      "no_active_curse": "Немає активного прокляття",
+      "already_cursed": "Користувач вже проклятий",
+      "server_error": "Виникла помилка сервера: {error}",
+      "invalid_duration": "Некоректна тривалість прокляття",
+      "not_cursed": "Користувач не проклятий",
+      "min_duration": "Тривалість прокляття повинна бути не менше 1 дня",
+      "self_curse_not_allowed": "Ви не можете накласти прокляття на самого себе"
+    },
+    "success": {
+      "curse_applied": "Прокляття накладено до {date}",
+      "curse_removed": "Прокляття знято успішно",
+      "applied": "Прокляття накладено до {curse_end}"
+    }
+  },
+  "auth": {
+    "errors": {
+      "account_exists": "Акаунт вже існує",
+      "invalid_email": "Невірна електронна пошта",
+      "email_not_confirmed": "Електронна пошта не підтверджена",
+      "invalid_password": "Невірний пароль",
+      "verification_error": "Помилка верифікації",
+      "authentication_required": "Потрібна автентифікація. Будь ласка, увійдіть, щоб залишити коментар.",
+      "no_refresh_token": "Не надано токен оновлення",
+      "invalid_refresh_token": "Недійсний токен оновлення: {error}",
+      "token_validation_failed": "Помилка валідації токена: {error}",
+      "user_not_found": "Користувача не знайдено",
+      "token_mismatch": "Збережений токен оновлення не співпадає з наданим токеном",
+      "token_refresh_failed": "Помилка оновлення токена: {error}"
+    },
+    "success": {
+      "email_already_confirmed": "Ваша електронна пошта вже підтверджена",
+      "email_confirmed": "Електронну пошту підтверджено",
+      "check_email": "Перевірте вашу електронну пошту для підтвердження",
+      "reset_email_sent": "Лист для скидання паролю надіслано. Будь ласка, перевірте вашу електронну пошту",
+      "password_updated": "Пароль успішно оновлено"
+    }
+  },
+  "attack": {
+    "errors": {
+      "user_frozen": "Користувач вже був заморожений",
+      "not_enough_stars": "Недостатньо зірок"
+    },
+    "success": {
+      "attack_successful": "Атака успішна!"
+    }
+  },
+  "armor": {
+    "errors": {
+      "update_failed": "Не вдалося оновити броню: {error}"
+    },
+    "success": {
+      "type_updated": "Тип броні змінено на {armor_type}"
+    }
+  },
+  "achievements": {
+    "errors": {
+      "check_failed": "Не вдалося перевірити досягнення: {error}"
+    },
+    "success": {
+      "check_completed": "Перевірку досягнень завершено"
+    },
+    "rewards": {
+      "stars_earned": "Отримано зірок: {count}",
+      "armor_earned": "Отримано броні: {count}"
+    },
+    "types": {
+      "toilet_master": {
+        "name": "Майстер Туалету",
+        "description": "Завершіть 100 успішних відвідувань туалету"
+      },
+      "poop_warrior": {
+        "name": "Какульковий Воїн",
+        "description": "Успішно виконайте 50 какулькових атак"
+      },
+      "armor_king": {
+        "name": "Король Броні",
+        "description": "Досягніть максимального рівня броні"
+      },
+      "star_collector": {
+        "name": "Збирач Зірок",
+        "description": "Зберіть 100 зірок"
+      },
+      "curse_breaker": {
+        "name": "Руйнівник Проклять",
+        "description": "Зніміть 5 проклять Єті"
+      }
+    },
+    "info": {
+      "no_achievements": "Поки що немає досягнень",
+      "already_earned": "Досягнення вже отримано"
+    }
+  },
+  "common": {
+    "errors": {
+      "database_error": "Помилка бази даних: {error}",
+      "session_start_failed": "Не вдалося розпочати сесію для користувача {username}",
+      "internal_error": "Виникла внутрішня помилка сервера під час початку сесії.",
+      "unexpected_error": "Виникла неочікувана помилка.{e}"
+    }
+  },
+  "toilet": {
+    "errors": {
+      "cannot_start": "{message}",
+      "no_active_session": "Активну сесію туалету не знайдено",
+      "no_current_king": "Сьогодні ще немає короля туалету",
+      "active_session_exists": "Неможливо почати нову сесію. У вас вже є активна сесія",
+      "recent_session_exists": "Неможливо почати нову сесію. Будь ласка, зачекайте одну годину між сесіями"
+    },
+    "success": {
+      "session_started": "Сесію туалету успішно розпочато",
+      "session_ended": "Сесію туалету успішно завершено",
+      "stars_earned": "Сесію успішно завершено! Ви отримали {stars} зірок за дотримання часового ліміту!",
+      "stars_lost": "Сесію завершено. Ви втратили {stars} зірок за перевищення часового ліміту."
+    }
+  },
+  "posts": {
+    "errors": {
+      "not_found": "Пост не знайдено",
+      "comments_error": "Коментар не знайдено"
+    },
+    "success": {
+      "retrieved": "Пост успішно отримано"
+    }
+  }
+}
