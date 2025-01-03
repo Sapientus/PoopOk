@@ -1,5 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
+
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.i18n.translations import translator
 
 from src.database.db import get_db
 from src.entity.models import User
@@ -12,10 +15,15 @@ router_achievements = APIRouter(prefix="/achievements", tags=["Achievements"])
 @router_achievements.get("/", description="Отримує всі досягнення користувача")
 async def get_user_achievements(
         db: AsyncSession = Depends(get_db),
-        current_user: User = Depends(auth_service.get_current_user)
+        current_user: User = Depends(auth_service.get_current_user),
+        t: callable = Depends(translator)
 ):
     try:
-        achievements = await fetch_user_achievements(current_user, db)
+        achievements = await fetch_user_achievements(current_user, db, t)
+        if not achievements:  # Якщо список порожній
+            return {
+                t("achievements.info.no_achievements"),
+            }
         return achievements
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -29,19 +37,16 @@ async def get_user_achievements(
                                       "\n\ncurse_breaker - За зняття 5 проклять\n\n")
 async def check_and_grant_achievements(
         db: AsyncSession = Depends(get_db),
-        current_user: User = Depends(auth_service.get_current_user)
+        current_user: User = Depends(auth_service.get_current_user),
+        t: callable = Depends(translator)
 ):
     try:
-        results = await process_achievements(current_user, db)
 
-        if not results:
-            return {
-                "message": "There are no achievements so far",
-            }
+        results = await process_achievements(current_user, db, t)
 
         return {
-            "message": "Achievement check completed",
-            "new_achievements": results
+            "message": t("achievements.success.check_completed"),
+            "new_achievements": results,
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -58,14 +58,14 @@ async def delete_post(db: AsyncSession, post_id: int, current_user: User):
     return True
 
 
-async def create_comment(db: AsyncSession, post_id: int, comment_data: CommentCreate, current_user: User):
+async def create_comment(db: AsyncSession, post_id: int, comment_data: CommentCreate, current_user: User, t: callable):
     post_stmt = select(Post).where(Post.id == post_id)
     post_result = await db.execute(post_stmt)
     post = post_result.scalar_one_or_none()
     if not post:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Post not found"
+            detail=t("posts.errors.comments_error")
         )
     new_comment = Comment(
         post_id=post_id,
@@ -78,7 +78,11 @@ async def create_comment(db: AsyncSession, post_id: int, comment_data: CommentCr
     return new_comment
 
 
-async def update_comment(db: AsyncSession, comment_id: int, comment_data: CommentUpdate, current_user: User):
+async def update_comment(db: AsyncSession,
+                         comment_id: int,
+                         comment_data: CommentUpdate,
+                         current_user: User,
+                         t: callable):
     stmt = select(Comment).where(Comment.id == comment_id)
     result = await db.execute(stmt)
     comment = result.scalar_one_or_none()
@@ -89,7 +93,7 @@ async def update_comment(db: AsyncSession, comment_id: int, comment_data: Commen
     if comment.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="You are not authorized to edit this comment"
+            detail=t("auth.errors.authentication_required")
         )
     for key, value in comment_data.model_dump(exclude_unset=True).items():
         setattr(comment, key, value)
@@ -100,7 +104,10 @@ async def update_comment(db: AsyncSession, comment_id: int, comment_data: Commen
     return comment
 
 
-async def delete_comment(db: AsyncSession, comment_id: int, current_user: User):
+async def delete_comment(db: AsyncSession,
+                         comment_id: int,
+                         current_user: User,
+                         t: callable):
     stmt = select(Comment).where(Comment.id == comment_id)
     result = await db.execute(stmt)
     comment = result.scalar_one_or_none()
@@ -111,7 +118,7 @@ async def delete_comment(db: AsyncSession, comment_id: int, current_user: User):
     if comment.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="You are not authorized to delete this comment"
+            detail=t("auth.errors.authentication_required")
         )
 
     await db.delete(comment)

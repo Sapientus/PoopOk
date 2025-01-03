@@ -26,24 +26,24 @@ async def calculate_curse_removal_cost(user: User) -> int:
     return CurseRemovalCost.BASE_STARS + (days_cursed * CurseRemovalCost.ADDITIONAL_PER_DAY)
 
 
-async def can_remove_curse(user: User) -> tuple[bool, str]:
+async def can_remove_curse(user: User, t: callable) -> tuple[bool, str]:
     """Перевіряє чи може користувач зняти прокляття"""
     if not user.is_frozen_until:
-        return False, "User is not cursed"
+        return False, t("curse.errors.not_cursed")
 
     cost = await calculate_curse_removal_cost(user)
     if user.stars < cost:
-        return False, f"Not enough stars. Required: {cost}"
+        return False, t("curse.errors.insufficient_stars").format(cost=cost)
 
     return True, "OK"
 
 
-async def remove_yeti(user: User, db: AsyncSession) -> tuple[bool, str, int]:
+async def remove_yeti(user: User, db: AsyncSession, t: callable) -> tuple[bool, str, int]:
     """
     Знімає прокляття з користувача за зірки
     Повертає: (успіх, повідомлення, вартість)
     """
-    can_remove, message = await can_remove_curse(user)
+    can_remove, message = await can_remove_curse(user, t)
     if not can_remove:
         return False, message, 0
 
@@ -63,7 +63,7 @@ async def remove_yeti(user: User, db: AsyncSession) -> tuple[bool, str, int]:
     db.add(removal)
     await db.commit()
 
-    return True, "Curse removed successfully", cost
+    return True, t("curse.success.curse_removed"), cost
 
 
 async def get_curse_history(user_id: int, db: AsyncSession, limit: int = 5):

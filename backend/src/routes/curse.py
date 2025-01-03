@@ -1,7 +1,11 @@
 from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException
+
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.i18n.translations import translator
+
 from src.database.db import get_db
 from src.services.auth import auth_service
 from src.entity.models import User
@@ -14,9 +18,10 @@ router_curse = APIRouter(prefix="/curse", tags=["Curse"])
                    description="Знімає прокляття з користувача за зірки, повертає: (успіх, повідомлення, вартість)")
 async def remove_yeti_curse(
         db: AsyncSession = Depends(get_db),
-        current_user: User = Depends(auth_service.get_current_user)
+        current_user: User = Depends(auth_service.get_current_user),
+        t: callable = Depends(translator)
 ):
-    success, message, cost = await remove_yeti(current_user, db)
+    success, message, cost = await remove_yeti(current_user, db, t)
     if not success:
         raise HTTPException(status_code=400, detail=message)
     return {
@@ -52,11 +57,11 @@ async def apply_curse(
         target_user_id: int,
         duration: int = 3,  # тривалість в днях
         db: AsyncSession = Depends(get_db),
+        t: callable = Depends(translator)
 ):
-
     target = await applied_curse(target_user_id, db)
     if not target:
-        raise HTTPException(status_code=404, detail="Target user not found")
+        raise HTTPException(status_code=404, detail=t("curse.errors.user_not_found"))
 
     # Накладаємо прокляття
     curse_end = await apply_yeti_curse(target, db, duration=timedelta(days=duration))

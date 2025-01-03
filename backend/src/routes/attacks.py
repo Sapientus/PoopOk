@@ -1,5 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.i18n.translations import translator
+
 from src.database.db import get_db
 from src.entity.models import User
 from src.repository.status_game import make_attack, get_users_for_attack
@@ -15,30 +19,32 @@ router = APIRouter(prefix='/attacks', tags=['Attacks'])
 async def make_poop_attack(
         attack_data: PoopAttackRequest,
         current_user: User = Depends(auth_service.get_current_user),
-        db: AsyncSession = Depends(get_db)
+        db: AsyncSession = Depends(get_db),
+        t: callable = Depends(translator)
 ):
     if await toilet_sessions.is_user_frozen(current_user):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="User is currently frozen"
+            detail=t("attack.errors.user_frozen")
         )
     try:
         remaining_stars = current_user.stars - attack_data.stars_spent
         if remaining_stars < 0:
-            raise ValueError("Not enough stars")
+            raise ValueError(t("attack.errors.not_enough_stars"))
 
-        attack, damage, target_armor = await make_attack(
+        attack, damage, target_armor, t = await make_attack(
             attacker=current_user,
             target_id=attack_data.target_id,
             stars_spent=attack_data.stars_spent,
-            db=db
+            db=db,
+            t=t
         )
 
         current_user.stars = remaining_stars
         await db.commit()
 
         return PoopAttackResponse(
-            message="Attack successful!",
+            message=t("attack.success.attack_successful"),
             damage_dealt=damage,
             remaining_stars=remaining_stars,
             target_armor_after_attack=target_armor

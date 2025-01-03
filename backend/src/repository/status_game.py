@@ -11,13 +11,13 @@ async def calculate_attack_damage(target: User, stars_spent: int) -> tuple[int, 
     return damage, new_armor
 
 
-async def make_attack(attacker: User, target_id: int, stars_spent: int, db: AsyncSession):
+async def make_attack(attacker: User, target_id: int, stars_spent: int, db: AsyncSession, t: callable):
     query = select(User).where(User.id == target_id)
     result = await db.execute(query)
     target = result.scalar_one_or_none()
 
     if not target:
-        raise ValueError("Target user not found")
+        raise ValueError(t("user.not_found"))
     should_freeze, freeze_until = await check_yeti_status(target_id, db)  # test
     if should_freeze:  # test
         await update_user_yeti_status(target, freeze_until, db)  # test
