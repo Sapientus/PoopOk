@@ -28,7 +28,7 @@
         />
       </button>
     </div>
-    <span v-if="errorMessage && showErrors" class="text-red-500 text-sm">{{
+    <span v-if="errorMessage && showErrors && type !== 'password'" class="text-red-500 text-sm">{{
       errorMessage
     }}</span>
   </div>
