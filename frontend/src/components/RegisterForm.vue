@@ -36,21 +36,57 @@
           @input="inputHandler"
         />
       </div>
-    </div>
-    <div class="mb-4">
-      <label for="password" class="block text-gray-800 dark:text-gray-200">{{
-        t("confirmPassword")
-      }}</label>
-      <div class="relative">
-        <BaseInput
-          v-model="form.confirm"
-          type="password"
-          :error-message="errors.confirmPassword"
-          :show-errors="showErrors"
-          @input="inputHandler"
-        />
+      <div class="w-full bg-gray-200 rounded-md my-2 h-2 overflow-hidden">
+        <div
+            class="h-full transition-all duration-300"
+            :style="{ width: progress + '%', backgroundColor: progressColor }"
+        ></div>
+      </div>
+      <div class="validation-rules text-gray-700">
+        <div :class="{ 'text-green-800': hasLowerAndUpper }" class="flex items-center">
+          <Icon v-if="!hasLowerAndUpper" icon-name="icon-exclamation" icon-class="h-4 w-4 text-red-800" />
+          <Icon
+            v-if="hasLowerAndUpper"
+            icon-name="icon-check"
+            icon-class="h-4 w-4 text-green-800"/>
+          <span class="ml-2">{{t('passwordCase')}}</span></div>
+        <div :class="{ 'text-green-800': hasNumber }" class="flex items-center">
+          <Icon v-if="!hasNumber" icon-name="icon-exclamation" icon-class="h-4 w-4 text-red-800" />
+          <Icon
+            v-if="hasNumber"
+            icon-name="icon-check"
+            icon-class="h-4 w-4 text-green-800"/>
+          <span class="ml-2">{{t('passwordNumber')}}</span></div>
+        <div :class="{ 'text-green-800': hasSpecialChar }" class="flex items-center">
+          <Icon v-if="!hasSpecialChar" icon-name="icon-exclamation" icon-class="h-4 w-4 text-red-800" />
+          <Icon
+            v-if="hasSpecialChar"
+            icon-name="icon-check"
+            icon-class="h-4 w-4 text-green-800"/>
+          <span class="ml-2">{{t('passwordSpecial')}}</span></div>
+        <div :class="{ 'text-green-800': hasMinLength }" class="flex items-center">
+          <Icon v-if="!hasMinLength" icon-name="icon-exclamation" icon-class="h-4 w-4 text-red-800" />
+          <Icon
+            v-if="hasMinLength"
+            icon-name="icon-check"
+            icon-class="h-4 w-4 text-green-800"/>
+          <span class="ml-2">{{t('passwordLength', {min: 6})}}</span></div>
       </div>
     </div>
+<!--    <div class="mb-4">-->
+<!--      <label for="password" class="block text-gray-800 dark:text-gray-200">{{-->
+<!--        t("confirmPassword")-->
+<!--      }}</label>-->
+<!--      <div class="relative">-->
+<!--        <BaseInput-->
+<!--          v-model="form.confirm"-->
+<!--          type="password"-->
+<!--          :error-message="errors.confirmPassword"-->
+<!--          :show-errors="showErrors"-->
+<!--          @input="inputHandler"-->
+<!--        />-->
+<!--      </div>-->
+<!--    </div>-->
     <BaseButton type="submit">{{ t("register") }}</BaseButton>
   </form>
   <Modal v-model="showModal" id="registerModal">
@@ -62,6 +98,8 @@
 <script setup>
 import BaseInput from "@/UI/BaseInput.vue";
 import { computed, reactive, ref } from "vue";
+import Icon from "@/utils/Icon.vue";
+
 import {
   confirmPassword,
   isEmail,
@@ -80,20 +118,57 @@ const form = reactive({
   username: "",
   email: "",
   password: "",
-  confirm: "",
+  // confirm: "",
 });
 
 const errors = ref({
   username: "",
   email: "",
   password: "",
-  confirmPassword: "",
+  // confirmPassword: "",
 });
+
+const hasLowerAndUpper = computed(() => {
+  return /[a-z]/.test(form.password) && /[A-Z]/.test(form.password);
+});
+
+const hasNumber = computed(() => {
+  return /[0-9]/.test(form.password);
+});
+
+const hasSpecialChar = computed(() => {
+  return /[!@#$%^&*]/.test(form.password);
+});
+
+const hasMinLength = computed(() => {
+  return form.password.length >= 6;
+});
+const totalValidConditions = computed(() => {
+  return (
+      hasLowerAndUpper.value +
+      hasNumber.value +
+      hasSpecialChar.value +
+      hasMinLength.value
+  );
+});
+const progress = computed(() => {
+  const startProgress = form.password.length > 0 ? 10 : 0;
+  return startProgress + (totalValidConditions.value / 4) * 100;
+});
+
+const progressColor = computed(() => {
+  console.log(progress.value);
+  if (progress.value < 25 || progress.value === 0) return "#FF0000"; // Червоний
+  if (progress.value < 50) return "#FFA500"; // Помаранчевий
+  if (progress.value < 100) return "#FFD700"; // Жовтий
+  return "#28a745"; // Зелений
+});
+
 
 const emailRules = [required, isEmail];
 const nameRules = [required, minLength(3)];
 const passwordRules = [required, minLength(6)];
-const confirmPasswordRules = [required, confirmPassword(() => form.password)];
+// const confirmPasswordRules = [required, confirmPassword(() => form.password)];
 
 const showErrors = ref(false);
 
@@ -109,10 +184,10 @@ function inputHandler() {
   errors.value.email = validateInput(form.email, emailRules);
   errors.value.password = validateInput(form.password, passwordRules);
 
-  errors.value.confirmPassword = validateInput(
-    form.confirm,
-    confirmPasswordRules,
-  );
+  // errors.value.confirmPassword = validateInput(
+  //   form.confirm,
+  //   confirmPasswordRules,
+  // );
 }
 
 const handleSubmit = () => {
@@ -129,7 +204,7 @@ const handleSubmit = () => {
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    // confirmPassword: "",
   });
 
   showModal.value = true;

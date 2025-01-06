@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-    <!-- Іконка 1: Очі з лініями -->
+    <!-- Іконка 1: око з лініями -->
     <symbol id="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor">
         <path
                 stroke-linecap="round"
@@ -28,6 +28,29 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M3 3l18 18"
+        />
+    </symbol>
+    <symbol id="icon-exclamation" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01"
+        />
+        <circle cx="12" cy="12" r="10"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M22 11.08V12a10 10 0 11-5.93-9.14"
+        />
+        <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M22 4L12 14.01l-3-3"
         />
     </symbol>
 </svg>
