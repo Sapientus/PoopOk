@@ -12,7 +12,7 @@ from src.routes import (
     toilet_session,
     achievement,
     armor,
-    curse, posts_comments
+    curse, posts_comments, i18n
 )
 
 app = FastAPI(title="PoopOK", description="Welcome to PoopOK API",
@@ -27,6 +27,7 @@ app.include_router(toilet_session.router, prefix='/api', tags=['Toilet Sessions'
 app.include_router(achievement.router_achievements, prefix='/api', tags=['Achievements'])
 app.include_router(armor.router_armor, prefix='/api', tags=['Armor'])
 app.include_router(curse.router_curse, prefix='/api', tags=['Curse'])
+app.include_router(i18n.router, prefix="/api", tags=["i18n"])
 
 
 @app.get("/api/healthchecker", tags=['Health checker'])
