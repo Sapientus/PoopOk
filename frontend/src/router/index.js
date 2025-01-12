@@ -3,16 +3,56 @@ import NotFound from "../pages/NotFound.vue";
 import { useUserStore } from "../stores/authStore";
 
 const routes = [
-  { path: "/enter", component: import("../pages/Main.vue"), name: "enter" },
-  { path: "", component: () => import("../components/MainLayout.vue"), children: [
-    { path: "", component: () => import("../pages/Profile.vue"), name: "profile" },
-    { path: "/about", component: () => import("../pages/About.vue"), meta: { requiresAuth: true }, name: "about" },
-    { path: "/contact", component: () => import("../pages/Contact.vue"), meta: { requiresAuth: true }, name: "contact" },
-    { path: "/settings", component: () => import("../pages/Settings.vue"), name: "settings" },
-    { path: "/chat", component: () => import("../pages/Chat.vue"), name: "chat" },
-    { path: "/tape", component: () => import("../pages/Tape.vue"), name: "tape" },
-  ], name: "home" },
-  
+  {
+    path: "",
+    component: () => import("../components/MainLayout.vue"),
+    children: [
+      {
+        path: "/login",
+        component: import("../pages/Login.vue"),
+        name: "login",
+      },
+      {
+        path: "/register",
+        component: import("../pages/Register.vue"),
+        name: "register",
+      },
+      {
+        path: "",
+        component: () => import("../pages/Profile.vue"),
+        name: "profile",
+      },
+      {
+        path: "/about",
+        component: () => import("../pages/About.vue"),
+        meta: { requiresAuth: true },
+        name: "about",
+      },
+      {
+        path: "/contact",
+        component: () => import("../pages/Contact.vue"),
+        meta: { requiresAuth: true },
+        name: "contact",
+      },
+      {
+        path: "/settings",
+        component: () => import("../pages/Settings.vue"),
+        name: "settings",
+      },
+      {
+        path: "/chat",
+        component: () => import("../pages/Chat.vue"),
+        name: "chat",
+      },
+      {
+        path: "/tape",
+        component: () => import("../pages/Tape.vue"),
+        name: "tape",
+      },
+    ],
+    name: "home",
+  },
+
   {
     path: "/:pathMatch(.*)*",
     component: NotFound,
@@ -27,8 +67,11 @@ const router = createRouter({
 // Захищений маршрут
 router.beforeEach((to, from, next) => {
   const authStore = useUserStore(); // Отримуємо store аутентифікації
-  if (to.matched.some(record => record.meta.requiresAuth) && !authStore.isAuthenticated) {
-    next({ path: '/enter' }); // Якщо не авторизований, перенаправляємо на логін
+  if (
+    to.matched.some((record) => record.meta.requiresAuth) &&
+    !authStore.isAuthenticated
+  ) {
+    next({ path: "/enter" }); // Якщо не авторизований, перенаправляємо на логін
   } else {
     next(); // Дозволяємо доступ
   }

@@ -1,98 +1,177 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <div class="mb-4">
-      <label for="username" class="block text-gray-800 dark:text-gray-200">{{
-        t("username")
-      }}</label>
-      <BaseInput
-        v-model="form.username"
-        :error-message="errors.username"
-        :show-errors="showErrors"
-        @input="inputHandler"
-      />
-    </div>
-    <div class="mb-4">
-      <label for="email" class="block text-gray-800 dark:text-gray-200">{{
-        t("email")
-      }}</label>
-      <BaseInput
-        v-model="form.email"
-        :error-message="errors.email"
-        :show-errors="showErrors"
-        @input="inputHandler"
-        type="email"
-      />
-    </div>
-    <div class="mb-4">
-      <label for="password" class="block text-gray-800 dark:text-gray-200">{{
-        t("password")
-      }}</label>
-      <div class="relative">
-        <BaseInput
-          v-model="form.password"
-          type="password"
-          :error-message="errors.password"
-          :show-errors="showErrors"
-          @input="inputHandler"
-        />
-      </div>
-      <div class="w-full bg-gray-200 rounded-md my-2 h-2 overflow-hidden">
-        <div
-            class="h-full transition-all duration-300"
-            :style="{ width: progress + '%', backgroundColor: progressColor }"
-        ></div>
-      </div>
-      <div class="validation-rules text-gray-700">
-        <div :class="{ 'text-green-800': hasLowerAndUpper }" class="flex items-center">
-          <Icon v-if="!hasLowerAndUpper" icon-name="icon-exclamation" icon-class="h-4 w-4 text-red-800" />
-          <Icon
-            v-if="hasLowerAndUpper"
-            icon-name="icon-check"
-            icon-class="h-4 w-4 text-green-800"/>
-          <span class="ml-2">{{t('passwordCase')}}</span></div>
-        <div :class="{ 'text-green-800': hasNumber }" class="flex items-center">
-          <Icon v-if="!hasNumber" icon-name="icon-exclamation" icon-class="h-4 w-4 text-red-800" />
-          <Icon
-            v-if="hasNumber"
-            icon-name="icon-check"
-            icon-class="h-4 w-4 text-green-800"/>
-          <span class="ml-2">{{t('passwordNumber')}}</span></div>
-        <div :class="{ 'text-green-800': hasSpecialChar }" class="flex items-center">
-          <Icon v-if="!hasSpecialChar" icon-name="icon-exclamation" icon-class="h-4 w-4 text-red-800" />
-          <Icon
-            v-if="hasSpecialChar"
-            icon-name="icon-check"
-            icon-class="h-4 w-4 text-green-800"/>
-          <span class="ml-2">{{t('passwordSpecial')}}</span></div>
-        <div :class="{ 'text-green-800': hasMinLength }" class="flex items-center">
-          <Icon v-if="!hasMinLength" icon-name="icon-exclamation" icon-class="h-4 w-4 text-red-800" />
-          <Icon
-            v-if="hasMinLength"
-            icon-name="icon-check"
-            icon-class="h-4 w-4 text-green-800"/>
-          <span class="ml-2">{{t('passwordLength', {min: 6})}}</span></div>
-      </div>
-    </div>
-<!--    <div class="mb-4">-->
-<!--      <label for="password" class="block text-gray-800 dark:text-gray-200">{{-->
-<!--        t("confirmPassword")-->
-<!--      }}</label>-->
-<!--      <div class="relative">-->
-<!--        <BaseInput-->
-<!--          v-model="form.confirm"-->
-<!--          type="password"-->
-<!--          :error-message="errors.confirmPassword"-->
-<!--          :show-errors="showErrors"-->
-<!--          @input="inputHandler"-->
-<!--        />-->
-<!--      </div>-->
-<!--    </div>-->
-    <BaseButton type="submit">{{ t("register") }}</BaseButton>
-  </form>
-  <Modal v-model="showModal" id="registerModal">
-    <h2 class="text-xl font-bold mb-4">{{ t("successRegister") }}</h2>
-    <p>{{ t("sendRegisterLink") }}</p>
-  </Modal>
+    <form @submit.prevent="handleSubmit">
+        <div class="mb-4 relative flex items-center">
+            <label
+                for="username"
+                class="text-gray-800 dark:text-gray-100 text-[13px] bg-white dark:bg-gray-800 absolute px-2 top-[-9px] left-[18px] font-semibold z-10"
+                >{{ t("username") }}</label
+            >
+            <BaseInput
+                v-model="form.username"
+                :error-message="errors.username"
+                :show-errors="showErrors"
+                @input="inputHandler"
+            />
+            <div class="h-5 w-5 absolute right-4">
+                <Icon
+                    icon-name="icon-username"
+                    icon-class="h-5 w-5 text-gray-500 dark:text-gray-100"
+                />
+            </div>
+        </div>
+        <div class="mb-4 relative flex items-center">
+            <label
+                for="email"
+                class="text-gray-800 dark:text-gray-100 text-[13px] bg-white dark:bg-gray-800 absolute px-2 top-[-9px] left-[18px] font-semibold z-10"
+                >{{ t("email") }}</label
+            >
+            <BaseInput
+                v-model="form.email"
+                :error-message="errors.email"
+                :show-errors="showErrors"
+                @input="inputHandler"
+                type="email"
+            />
+            <div class="h-5 w-5 absolute right-4">
+                <Icon
+                    icon-name="icon-mail"
+                    icon-class="h-5 w-5 text-gray-500 dark:text-gray-100"
+                />
+            </div>
+        </div>
+        <div class="mb-4 relative flex items-center">
+            <label
+                for="password"
+                class="text-gray-800 dark:text-gray-100 text-[13px] bg-white dark:bg-gray-800 absolute px-2 top-[-9px] left-[18px] font-semibold z-10"
+                >{{ t("password") }}</label
+            >
+            <BaseInput
+                v-model="form.password"
+                type="password"
+                :error-message="errors.password"
+                :show-errors="showErrors"
+                @input="inputHandler"
+            />
+        </div>
+
+        <div class="mb-4 relative flex items-center">
+            <label
+                for="password"
+                class="text-gray-800 dark:text-gray-100 text-[13px] bg-white dark:bg-gray-800 absolute px-2 top-[-9px] left-[18px] font-semibold z-10"
+                >{{ t("confirmPassword") }}</label
+            >
+            <BaseInput
+                v-model="form.confirm"
+                type="password"
+                :error-message="errors.confirmPassword"
+                :show-errors="showErrors"
+                @input="inputHandler"
+            />
+        </div>
+        <div class="mb-4">
+            <div class="w-full bg-gray-200 rounded-md my-2 h-2 overflow-hidden">
+                <div
+                    class="h-full transition-all duration-300"
+                    :style="{
+                        width: progress + '%',
+                        backgroundColor: progressColor,
+                    }"
+                ></div>
+            </div>
+            <div class="validation-rules text-gray-700 dark:text-gray-100">
+                <div
+                    :class="{ 'text-green-800': hasLowerAndUpper }"
+                    class="flex items-center"
+                >
+                    <Icon
+                        v-if="!hasLowerAndUpper"
+                        icon-name="icon-exclamation"
+                        icon-class="h-4 w-4 text-red-800"
+                    />
+                    <Icon
+                        v-if="hasLowerAndUpper"
+                        icon-name="icon-check"
+                        icon-class="h-4 w-4 text-green-800"
+                    />
+                    <span class="ml-2">{{ t("passwordCase") }}</span>
+                </div>
+                <div
+                    :class="{ 'text-green-800': hasNumber }"
+                    class="flex items-center"
+                >
+                    <Icon
+                        v-if="!hasNumber"
+                        icon-name="icon-exclamation"
+                        icon-class="h-4 w-4 text-red-800"
+                    />
+                    <Icon
+                        v-if="hasNumber"
+                        icon-name="icon-check"
+                        icon-class="h-4 w-4 text-green-800"
+                    />
+                    <span class="ml-2">{{ t("passwordNumber") }}</span>
+                </div>
+                <div
+                    :class="{ 'text-green-800': hasSpecialChar }"
+                    class="flex items-center"
+                >
+                    <Icon
+                        v-if="!hasSpecialChar"
+                        icon-name="icon-exclamation"
+                        icon-class="h-4 w-4 text-red-800"
+                    />
+                    <Icon
+                        v-if="hasSpecialChar"
+                        icon-name="icon-check"
+                        icon-class="h-4 w-4 text-green-800"
+                    />
+                    <span class="ml-2">{{
+                        t("passwordSpecial", { value: "(!@#$%^&*)" })
+                    }}</span>
+                </div>
+                <div
+                    :class="{ 'text-green-800': hasMinLength }"
+                    class="flex items-center"
+                >
+                    <Icon
+                        v-if="!hasMinLength"
+                        icon-name="icon-exclamation"
+                        icon-class="h-4 w-4 text-red-800"
+                    />
+                    <Icon
+                        v-if="hasMinLength"
+                        icon-name="icon-check"
+                        icon-class="h-4 w-4 text-green-800"
+                    />
+                    <span class="ml-2">{{
+                        t("passwordLength", { min: 6 })
+                    }}</span>
+                </div>
+                <div
+                    :class="{ 'text-green-800': hasPasswordConfirm }"
+                    class="flex items-center"
+                >
+                    <Icon
+                        v-if="!hasPasswordConfirm"
+                        icon-name="icon-exclamation"
+                        icon-class="h-4 w-4 text-red-800"
+                    />
+                    <Icon
+                        v-if="hasPasswordConfirm"
+                        icon-name="icon-check"
+                        icon-class="h-4 w-4 text-green-800"
+                    />
+                    <span class="ml-2">{{ t("passwordConfirm") }}</span>
+                </div>
+            </div>
+        </div>
+        <BaseButton type="submit">{{ t("register") }}</BaseButton>
+    </form>
+    <Modal v-model="showModal" id="registerModal">
+        <h2 class="text-xl font-bold mb-4">{{ t(modalValue) }}</h2>
+        <p v-if="modalValue === 'emailExist'">{{ t("checkEmail") }}</p>
+        <p v-else>Link</p>
+    </Modal>
 </template>
 
 <script setup>
@@ -101,74 +180,77 @@ import { computed, reactive, ref } from "vue";
 import Icon from "@/utils/Icon.vue";
 
 import {
-  confirmPassword,
-  isEmail,
-  minLength,
-  required,
+    confirmPassword,
+    isEmail,
+    minLength,
+    required,
 } from "@/utils/validationRules.js";
 import { validateInput } from "@/utils/validation.js";
 import BaseButton from "@/UI/BaseButton.vue";
 import Modal from "@/UI/Modal.vue";
 import { useI18n } from "vue-i18n";
+import { useUserStore } from "@/stores/authStore";
 
 // Використовуємо i18n
 const { t } = useI18n();
 
 const form = reactive({
-  username: "",
-  email: "",
-  password: "",
-  // confirm: "",
+    username: "",
+    email: "",
+    password: "",
+    confirm: "",
 });
+const modalValue = ref("");
 
 const errors = ref({
-  username: "",
-  email: "",
-  password: "",
-  // confirmPassword: "",
+    username: "",
+    email: "",
 });
 
 const hasLowerAndUpper = computed(() => {
-  return /[a-z]/.test(form.password) && /[A-Z]/.test(form.password);
+    return /[a-z]/.test(form.password) && /[A-Z]/.test(form.password);
 });
 
 const hasNumber = computed(() => {
-  return /[0-9]/.test(form.password);
+    return /[0-9]/.test(form.password);
 });
 
 const hasSpecialChar = computed(() => {
-  return /[!@#$%^&*]/.test(form.password);
+    return /[!@#$%^&*]/.test(form.password);
 });
 
 const hasMinLength = computed(() => {
-  return form.password.length >= 6;
+    return form.password.length >= 6;
+});
+
+const hasPasswordConfirm = computed(() => {
+    return form.password === form.confirm && form.confirm.length;
 });
 const totalValidConditions = computed(() => {
-  return (
-      hasLowerAndUpper.value +
-      hasNumber.value +
-      hasSpecialChar.value +
-      hasMinLength.value
-  );
+    return (
+        hasLowerAndUpper.value +
+        hasNumber.value +
+        hasSpecialChar.value +
+        hasMinLength.value +
+        hasPasswordConfirm.value
+    );
 });
 const progress = computed(() => {
-  const startProgress = form.password.length > 0 ? 10 : 0;
-  return startProgress + (totalValidConditions.value / 4) * 100;
+    const startProgress = form.password.length > 0 ? 10 : 0;
+    return startProgress + (totalValidConditions.value / 5) * 100;
 });
 
 const progressColor = computed(() => {
-  console.log(progress.value);
-  if (progress.value < 25 || progress.value === 0) return "#FF0000"; // Червоний
-  if (progress.value < 50) return "#FFA500"; // Помаранчевий
-  if (progress.value < 100) return "#FFD700"; // Жовтий
-  return "#28a745"; // Зелений
+    if (progress.value < 20 || progress.value === 0) return "#da1e28"; // Червоний
+    if (progress.value < 40) return "#8e6a00"; // Помаранчевий
+    if (progress.value < 60) return "#ba4e00"; // Жовтий
+    if (progress.value < 80) return "#ff832b"; // Жовтий
+    if (progress.value < 100) return "#f1c21b"; // Жовтий
+    return "#28a745"; // Зелений
 });
-
 
 const emailRules = [required, isEmail];
 const nameRules = [required, minLength(3)];
-const passwordRules = [required, minLength(6)];
-// const confirmPasswordRules = [required, confirmPassword(() => form.password)];
 
 const showErrors = ref(false);
 
@@ -176,38 +258,39 @@ const showModal = ref(false);
 
 // Перевірка валідності форми
 const formValid = computed(() =>
-  Object.values(errors.value).every((error) => !error),
+    Object.values(errors.value).every((error) => !error),
 );
 
 function inputHandler() {
-  errors.value.username = validateInput(form.username, nameRules);
-  errors.value.email = validateInput(form.email, emailRules);
-  errors.value.password = validateInput(form.password, passwordRules);
-
-  // errors.value.confirmPassword = validateInput(
-  //   form.confirm,
-  //   confirmPasswordRules,
-  // );
+    errors.value.username = validateInput(form.username, nameRules);
+    errors.value.email = validateInput(form.email, emailRules);
 }
 
-const handleSubmit = () => {
-  inputHandler();
-  if (!formValid.value) {
-    showErrors.value = true;
-    return;
-  }
+const handleSubmit = async () => {
+    const userStore = await useUserStore();
 
-  // Відправка форми
+    inputHandler();
+    if (!formValid.value || progress.value < 100) {
+        showErrors.value = true;
+        return;
+    }
 
-  // Очистка форми
-  Object.assign(form, {
-    username: "",
-    email: "",
-    password: "",
-    // confirmPassword: "",
-  });
+    // Відправка форми
+    const res = userStore.signUp(form);
+    if (res && res.status === 201) {
+        modalValue.value = "emailExist";
+        showModal.value = true;
+    } else if (res) {
+        modalValue.value = "successRegister";
+        showModal.value = true;
+    }
 
-  showModal.value = true;
-  console.log(form, formValid);
+    // Очистка форми
+    Object.assign(form, {
+        username: "",
+        email: "",
+        password: "",
+        confirm: "",
+    });
 };
 </script>

@@ -49,7 +49,8 @@ export const useUserStore = defineStore(
       AuthService.refreshToken();
     }
 
-    function signUp(credentials) {
+    async function signUp(credentials) {
+      console.log(credentials);
       if (
         !credentials ||
         !credentials.username ||
@@ -60,14 +61,19 @@ export const useUserStore = defineStore(
           "Invalid credentials. Email and password are required.",
         );
       }
-
+      const { username, password, email } = credentials;
       try {
-        const response = AuthService.signUp(credentials);
+        const response = await AuthService.signUp({
+          username,
+          password,
+          email,
+        });
         if (!response) {
           throw new Error(
             "Invalid response from the API. Token and user are required.",
           );
         }
+        return response;
       } catch (error) {
         console.error("Error signing up:", error);
         throw error;

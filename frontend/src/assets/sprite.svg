@@ -53,4 +53,46 @@
                 d="M22 4L12 14.01l-3-3"
         />
     </symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <!-- Контур конверта -->
+    <rect
+        x="2"
+        y="4"
+        width="20"
+        height="16"
+        rx="2"
+        ry="2"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none" stroke="currentColor"
+    />
+    <!-- Лінія згину конверта -->
+    <path
+        d="M2 4l10 8L22 4"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    />
+</symbol>
+
+<symbol id="icon-username" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+
+    <circle
+        cx="12"
+        cy="8"
+        r="4"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    />
+    <path
+        d="M4 20c0-4 4-6 8-6s8 2 8 6"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    />
+</symbol>
+
+
 </svg>

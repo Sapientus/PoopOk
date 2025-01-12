@@ -19,6 +19,7 @@ const i18n = createI18n({
   fallbackLocale: "en", // Резервна мова
   messages, // Об'єкт з перекладами
   watchLocale: true,
+  escapeParameterHtml: true,
 });
 
 // Відслідковуємо зміну мови

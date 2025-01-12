@@ -1,37 +1,39 @@
 <template>
-  <div class="input-wrapper">
-    <div class="relative">
-      <input
-        :type="currentType"
-        :value="model"
-        @input="handlerInput"
-        :autocomplete="
-          currentType === 'password' ? 'current-password' : 'username'
-        "
-        class="mt-1 block w-full p-2 text-gray-800 bg-gray-200 dark:bg-gray-700 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <button
-        v-if="type === 'password'"
-        type="button"
-        @click="togglePasswordVisibility"
-        class="absolute inset-y-0 right-0 top-1/2 -translate-y-2/4 pr-3 flex items-center text-sm leading-5"
-      >
-        <Icon
-          v-if="showPassword"
-          icon-name="icon-eye"
-          icon-class="h-5 w-5 text-gray-500"
-        />
-        <Icon
-          v-else
-          icon-name="icon-eye-off"
-          icon-class="h-5 w-5 text-gray-500"
-        />
-      </button>
+    <div class="input-wrapper w-full">
+        <div class="relative w-full">
+            <input
+                :type="currentType"
+                :value="model"
+                @input="handlerInput"
+                :autocomplete="
+                    currentType === 'password' ? 'current-password' : 'username'
+                "
+                class="px-4 py-3.5 bg-white dark:bg-gray-800 w-full text-sm text-gray-700 border-2 border-gray-200 focus:border-blue-600 dark:focus:border-blue-200 rounded-md outline-none"
+            />
+            <button
+                v-if="type === 'password'"
+                type="button"
+                @click="togglePasswordVisibility"
+                class="absolute inset-y-0 right-0 top-1/2 -translate-y-2/4 pr-3 flex items-center text-sm leading-5"
+            >
+                <Icon
+                    v-if="showPassword"
+                    icon-name="icon-eye"
+                    icon-class="h-5 w-5 text-gray-500 dark:text-gray-100"
+                />
+                <Icon
+                    v-else
+                    icon-name="icon-eye-off"
+                    icon-class="h-5 w-5 text-gray-500 dark:text-gray-100"
+                />
+            </button>
+        </div>
+        <span
+            v-if="errorMessage && showErrors && type !== 'password'"
+            class="text-red-500 text-sm"
+            >{{ errorMessage }}</span
+        >
     </div>
-    <span v-if="errorMessage && showErrors && type !== 'password'" class="text-red-500 text-sm">{{
-      errorMessage
-    }}</span>
-  </div>
 </template>
 
 <script setup>
@@ -40,9 +42,9 @@ import { ref } from "vue";
 import Icon from "@/utils/Icon.vue";
 
 const props = defineProps({
-  type: { type: String, default: "text" }, // тип інпуту
-  showErrors: { type: Boolean, default: false }, // показувати помилки
-  errorMessage: { type: String, default: "" }, // текст помилки
+    type: { type: String, default: "text" }, // тип інпуту
+    showErrors: { type: Boolean, default: false }, // показувати помилки
+    errorMessage: { type: String, default: "" }, // текст помилки
 });
 
 const model = defineModel();
@@ -55,14 +57,14 @@ const currentType = ref(props.type);
 
 // Обробник вводу
 function handlerInput(event) {
-  model.value = event.target.value;
-  emit("input", event.target.value);
+    model.value = event.target.value;
+    emit("input", event.target.value);
 }
 
 // Показати/приховати пароль
 const showPassword = ref(false);
 const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value;
-  currentType.value = showPassword.value ? "text" : "password";
+    showPassword.value = !showPassword.value;
+    currentType.value = showPassword.value ? "text" : "password";
 };
 </script>
