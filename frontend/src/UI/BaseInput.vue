@@ -5,6 +5,7 @@
                 :type="currentType"
                 :value="model"
                 @input="handlerInput"
+                :placeholder="placeholder"
                 :autocomplete="
                     currentType === 'password' ? 'current-password' : 'username'
                 "
@@ -30,7 +31,7 @@
         </div>
         <span
             v-if="errorMessage && showErrors && type !== 'password'"
-            class="text-red-500 text-sm"
+            class="text-red-500 text-sm dark:text-rose-600"
             >{{ errorMessage }}</span
         >
     </div>
@@ -45,6 +46,7 @@ const props = defineProps({
     type: { type: String, default: "text" }, // тип інпуту
     showErrors: { type: Boolean, default: false }, // показувати помилки
     errorMessage: { type: String, default: "" }, // текст помилки
+    placeholder: { type: String, default: "" }, // плейсхолдер
 });
 
 const model = defineModel();

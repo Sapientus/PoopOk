@@ -8,12 +8,13 @@
             <BaseInput
                 v-model="form.email"
                 type="email"
+                placeholder="name@mail.com"
                 :errorMessage="errors.email"
                 :show-errors="showErrors"
                 @input="inputHandler"
             />
 
-            <div class="h-5 w-5 absolute right-4">
+            <div class="h-5 w-5 absolute right-4 top-[16px]">
                 <Icon
                     icon-name="icon-mail"
                     icon-class="h-5 w-5 text-gray-500"
@@ -30,9 +31,22 @@
                 v-model="form.password"
                 type="password"
                 :errorMessage="errors.password"
+                placeholder="******"
                 :show-errors="showErrors"
                 @input="inputHandler"
             />
+        </div>
+        <div class="flex items-center justify-between mb-4 relative">
+          <div  class="flex items-center">
+            <input type="checkbox" id="remember" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ t("rememberMe") }}</label>
+          </div>
+          <div>
+            <BaseLink to="/reset-password" class="text-blue-500">
+              {{ t("forgotPassword") }}
+            </BaseLink>
+          </div>
+
         </div>
         <BaseButton type="submit">{{ t("login") }}</BaseButton>
     </form>
@@ -46,6 +60,7 @@ import { validateInput } from "@/utils/validation.js";
 import BaseButton from "@/UI/BaseButton.vue";
 import { useI18n } from "vue-i18n";
 import Icon from "@/utils/Icon.vue";
+import BaseLink from "@/UI/BaseLink.vue";
 
 // Використовуємо i18n
 const { t } = useI18n();

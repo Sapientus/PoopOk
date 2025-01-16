@@ -18,6 +18,11 @@ const routes = [
         name: "register",
       },
       {
+        path: "/reset-password",
+        component: import("../pages/ResetPassword.vue"),
+        name: "reset-password",
+      },
+      {
         path: "",
         component: () => import("../pages/Profile.vue"),
         name: "profile",

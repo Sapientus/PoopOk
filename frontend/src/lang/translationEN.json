@@ -23,6 +23,7 @@
   "registerHere": "Register here",
   "forgotPassword": "Forgot Password?",
   "resetPassword": "Reset Password",
+    "resetPasswordDescription": "Enter your email address to receive a password reset link.",
   "sendPasswordResetLink": "Send Password Reset Link",
   "successRegister": "You have successfully registered",
   "sendRegisterLink": "A letter with a link to confirm registration has been sent to your email.",

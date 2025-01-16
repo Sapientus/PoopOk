@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center items-center bg-white dark:bg-gray-900">
+    <div class="h-full flex justify-center items-center bg-white dark:bg-gray-900 py-10 bg-[url('./src/assets/bg_auth.svg')] bg-cover bg-top">
         <div
             class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-md w-full"
         >

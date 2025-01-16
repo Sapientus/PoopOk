@@ -41,9 +41,17 @@
                         >Контакти</router-link
                     >
                 </nav>
+                <div class="flex">
+                  <div class="mr-2 flex items-center">
+                    <ThemeSwitcher />
+                  </div>
+                  <div class="flex items-center">
+                    <LanguageSwitcher />
+                  </div>
+                </div>
 
                 <!-- Профіль з випадаючим меню -->
-                <div class="relative">
+                <div class="relative" v-if="isAuthenticated">
                     <button
                         @click="toggleDropdown"
                         class="flex items-center space-x-2 focus:outline-none"
@@ -139,7 +147,7 @@
             </div>
         </header>
         <!-- Основний контент -->
-        <main class="flex-grow pt-20 pb-4">
+        <main class="flex-grow pt-16">
             <router-view />
         </main>
 
@@ -156,6 +164,9 @@
 import ThemeSwitcher from "./ThemeSwitcher.vue";
 import LanguageSwitcher from "./LanguageSwitcher.vue";
 import { ref } from "vue";
+import { useUserStore } from "@/stores/authStore";
+
+const isAuthenticated = useUserStore().isAuthenticated;
 
 const dropdownOpen = ref(false);
 const mobileMenuOpen = ref(false);

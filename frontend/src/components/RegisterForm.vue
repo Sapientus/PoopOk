@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="handleSubmit">
-        <div class="mb-4 relative flex items-center">
+        <div class="mb-4 relative flex items-center h-full">
             <label
                 for="username"
                 class="text-gray-800 dark:text-gray-100 text-[13px] bg-white dark:bg-gray-800 absolute px-2 top-[-9px] left-[18px] font-semibold z-10"
@@ -8,11 +8,12 @@
             >
             <BaseInput
                 v-model="form.username"
+                :placeholder="t('username')"
                 :error-message="errors.username"
                 :show-errors="showErrors"
                 @input="inputHandler"
             />
-            <div class="h-5 w-5 absolute right-4">
+            <div class="h-5 w-5 absolute right-4 top-[16px]">
                 <Icon
                     icon-name="icon-username"
                     icon-class="h-5 w-5 text-gray-500 dark:text-gray-100"
@@ -29,10 +30,11 @@
                 v-model="form.email"
                 :error-message="errors.email"
                 :show-errors="showErrors"
+                placeholder="name@mail.com"
                 @input="inputHandler"
                 type="email"
             />
-            <div class="h-5 w-5 absolute right-4">
+            <div class="h-5 w-5 absolute right-4 top-[16px]">
                 <Icon
                     icon-name="icon-mail"
                     icon-class="h-5 w-5 text-gray-500 dark:text-gray-100"
@@ -48,8 +50,7 @@
             <BaseInput
                 v-model="form.password"
                 type="password"
-                :error-message="errors.password"
-                :show-errors="showErrors"
+                placeholder="******"
                 @input="inputHandler"
             />
         </div>
@@ -63,8 +64,7 @@
             <BaseInput
                 v-model="form.confirm"
                 type="password"
-                :error-message="errors.confirmPassword"
-                :show-errors="showErrors"
+                placeholder="******"
                 @input="inputHandler"
             />
         </div>
@@ -86,7 +86,7 @@
                     <Icon
                         v-if="!hasLowerAndUpper"
                         icon-name="icon-exclamation"
-                        icon-class="h-4 w-4 text-red-800"
+                        icon-class="h-4 w-4 text-red-800 dark:text-rose-600"
                     />
                     <Icon
                         v-if="hasLowerAndUpper"
@@ -102,7 +102,7 @@
                     <Icon
                         v-if="!hasNumber"
                         icon-name="icon-exclamation"
-                        icon-class="h-4 w-4 text-red-800"
+                        icon-class="h-4 w-4 text-red-800 dark:text-rose-600"
                     />
                     <Icon
                         v-if="hasNumber"
@@ -118,7 +118,7 @@
                     <Icon
                         v-if="!hasSpecialChar"
                         icon-name="icon-exclamation"
-                        icon-class="h-4 w-4 text-red-800"
+                        icon-class="h-4 w-4 text-red-800 dark:text-rose-600"
                     />
                     <Icon
                         v-if="hasSpecialChar"
@@ -136,7 +136,7 @@
                     <Icon
                         v-if="!hasMinLength"
                         icon-name="icon-exclamation"
-                        icon-class="h-4 w-4 text-red-800"
+                        icon-class="h-4 w-4 text-red-800 dark:text-rose-600"
                     />
                     <Icon
                         v-if="hasMinLength"
@@ -154,7 +154,7 @@
                     <Icon
                         v-if="!hasPasswordConfirm"
                         icon-name="icon-exclamation"
-                        icon-class="h-4 w-4 text-red-800"
+                        icon-class="h-4 w-4 text-red-800 dark:text-rose-600"
                     />
                     <Icon
                         v-if="hasPasswordConfirm"
