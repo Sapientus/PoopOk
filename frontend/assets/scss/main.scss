@@ -1,0 +1,46 @@
+@use "variables";
+@use "mixins";
+@use "pages/login";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: "Montserrat", sans-serif;
+
+    > a {
+        color: var(--primery-text);
+        font-size: 14px;
+        font-weight: bold;
+
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    > button {
+        width: 100%;
+
+        padding: 10px 15px;
+
+        background: var(--button-bg);
+        border: none;
+        outline: none;
+        border-radius: 5px;
+
+        color: var(--button-text);
+        font-size: 14px;
+
+        cursor: pointer;
+    }
+}
+
+html {
+    background: var(--primary-bg);
+    color: var(--primary-text);
+}
+
+

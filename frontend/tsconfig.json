@@ -1,17 +1,13 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "strict": true,
-    "jsx": "preserve",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "types": ["vite/client", "naive-ui/volar"]
-  },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["node_modules"],
-  "files": ["src/main.ts", "src/components/**/*.ts"]
-}
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
 
+  "include": ["*.d.ts", "types", "server/api"],
+  "compilerOptions": {
+    "types": ["node", "vue", "./types/vue-i18n", "@nuxt/types"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["*"]
+    }
+  }
+}
