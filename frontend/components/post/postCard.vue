@@ -1,10 +1,10 @@
 <template>
     <div class="post-card">
         <div class="post-card__col">
-            <UserAvatar :src="user.avatar" />
+            <UserAvatar :src="post.user.avatar" />
         </div>
         <div class="post-card__col">
-            <PostHeader :user="user" :createdAt="post.createdAt" />
+            <PostHeader :user="post.user" :createdAt="post.createdAt" />
             <PostContent :content="post.content" />
             <PostActions
                 :likes="post.likes"
@@ -16,14 +16,14 @@
 </template>
 
 <script setup lang="ts">
-const { post, user } = defineProps<{
-    post?: Object;
-    user?: Object;
+const { post } = defineProps<{
+    post: Object;
 }>();
+
 const router = useRouter();
 
 const routerToPost = () => {
-    router.push(`/post/${post.id}`);
+    router.push(`/post/${post.id}`); // TODO: fix this
 };
 </script>
 

@@ -10,7 +10,7 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 const { t } = useI18n();
 
-const showModal = ref(true);
+const showModal = ref(false);
 
 const router = useRoute();
 const postId = router.params.id;
@@ -34,7 +34,7 @@ const openMadal = () => {
         <div class="page-post">
             <div class="page-post__post">
                 <SkeletonPost v-if="pending" />
-                <PagePostCard v-else :post="post" :user="post.user" />
+                <PagePostCard v-else :post="post" />
             </div>
             <div class="page-post__activity">
                 <div class="page-post__activity--wrapper">
@@ -75,9 +75,7 @@ const openMadal = () => {
         </div>
         <div class="modal__post--input">
             <div class="modal__post--input-avatar">
-                <UserAvatar :src="user.avatar" />
             </div>
-            <UiBaseInput v-model="comment" :placeholder="t('addComment')" />
         </div>
 
         <div class="modal__submit">

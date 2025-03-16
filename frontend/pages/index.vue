@@ -27,7 +27,6 @@ const routerToPost = (id: number) => {
             v-for="post in posts"
             :key="post.id"
             :post="post"
-            :user="post.user"
             @click="routerToPost(post.id)"
         />
     </HeaderPage>

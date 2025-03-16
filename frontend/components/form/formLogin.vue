@@ -64,7 +64,7 @@ import { computed, reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { isEmail, minLength, required } from "../../utils/validationRules";
 import { validateInput } from "../../utils/validation";
-import { useAuthStore } from "../../store/authStore";
+import { useAuthStore } from "../../store/auth";
 
 // Використовуємо i18n
 const { t } = useI18n();
