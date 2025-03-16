@@ -1,0 +1,78 @@
+:root {
+    --primary-text: #000000;
+    --secondary-text: #777777;
+
+    --primary-bg: #fafafa;
+    --secondary-bg: #ffffff;
+    --tertiary-bg: #f0f0f0;
+
+    --button-bg: #000000;
+    --button-text: #ffffff;
+
+    --primary-icon: #000000;
+    --secondary-icon: #999999;
+    --navigation-icon: #b8b8b8;
+
+    --post-icon: #424242;
+
+    --hover-grey: #f0f0f0;
+    --box-shadow: #f2f2f2;
+    --border: #e6e6e6;
+    --border-focus: #cccccc;
+
+    --danger: #dc3545;
+
+    --first-skeleton: #e6e6e6;
+    --second-skeleton: #f2f2f2;
+
+    // Paddings
+    --padding-small: 10px;
+    --padding-medium: 20px;
+    --padding-large: 30px;
+    --padding-xlarge: 40px;
+    --padding-xxlarge: 50px;
+    --padding-xxxlarge: 60px;
+
+    // Fonts
+    --font-family: "Inter", sans-serif;
+    --font-size-small: 12px;
+    --font-size-medium: 14px;
+    --font-size-large: 16px;
+    --font-size-xlarge: 18px;
+    --font-size-xxlarge: 20px;
+    --font-size-xxxlarge: 24px;
+    
+    // Widths
+    --width-content: 640px;
+
+    // Border Radius
+    --border-radius: 20px;
+}
+
+.dark {
+    --primary-text: #ffffff;
+    --secondary-text: #777777;
+
+    --primary-bg: #0a0a0a;
+    --secondary-bg: #141414;
+    --tertiary-bg: #1e1e1e;
+
+    --button-bg: #ffffff;
+    --button-text: #000000;
+
+    --primary-icon: #f3f5f7;
+    --secondary-icon: #777777;
+    --navigation-icon: #4d4d4d;
+
+    --post-icon: #f3f5f7;
+
+    --hover-grey: #0f0f0f;
+    --box-shadow: #333333;
+    --border: #46484b;
+    --border-focus: #333333;
+
+    --danger: #dc3545;
+
+    --first-skeleton: #1a1a1a;
+    --second-skeleton: #141414;
+}

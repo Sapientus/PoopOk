@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cc17541f-1768-452e-b4aa-823be399749b" name="Changes" comment="delete any files">
+      <change beforePath="$PROJECT_DIR$/frontend/src/UI/BaseInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/UI/BaseInput.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/MainLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MainLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/RegisterForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/RegisterForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/lang/translationEN.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/lang/translationEN.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/lang/translationUA.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/lang/translationUA.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/authService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/authService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/stores/authStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/stores/authStore.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="first_step" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;pusanukbr&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Sapientus/PoopOk.git&quot;,
+    &quot;accountId&quot;: &quot;25aacb2d-835b-4205-bc68-bc7178c5ca81&quot;
+  }
+}</component>
+  <component name="LLMProjectSettings">
+    <option name="turned_on" value="false" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2q5cC6EtvWSFc649MB18zCoP9LA" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;first__step&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ttt/WebstormProjects/PoopOk/backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/usr/local/lib/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/ttt/WebstormProjects/PoopOk/frontend/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend" />
+      <recent name="$PROJECT_DIR$/backend/src" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cc17541f-1768-452e-b4aa-823be399749b" name="Changes" comment="" />
+      <created>1733955746175</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1733955746175</updated>
+      <workItem from="1733955747770" duration="4812000" />
+      <workItem from="1734016330935" duration="14023000" />
+      <workItem from="1734874073778" duration="6000" />
+      <workItem from="1734874104945" duration="9946000" />
+      <workItem from="1734997508621" duration="8869000" />
+      <workItem from="1735330565875" duration="224000" />
+      <workItem from="1735330853104" duration="2815000" />
+      <workItem from="1735914035289" duration="563000" />
+      <workItem from="1736698386520" duration="229000" />
+      <workItem from="1736994303405" duration="60000" />
+      <workItem from="1737639417694" duration="1350000" />
+      <workItem from="1737770816482" duration="273000" />
+    </task>
+    <task id="LOCAL-00001" summary="commit for desktop">
+      <option name="closed" value="true" />
+      <created>1734391697662</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1734391697662</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add icon">
+      <option name="closed" value="true" />
+      <created>1734391710922</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1734391710922</updated>
+    </task>
+    <task id="LOCAL-00003" summary="commit for desktop">
+      <option name="closed" value="true" />
+      <created>1736180808976</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1736180808976</updated>
+    </task>
+    <task id="LOCAL-00004" summary="small fix">
+      <option name="closed" value="true" />
+      <created>1736698429106</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1736698429106</updated>
+    </task>
+    <task id="LOCAL-00005" summary="delete any files">
+      <option name="closed" value="true" />
+      <created>1736698477599</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1736698477599</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add icon" />
+    <MESSAGE value="commit for desktop" />
+    <MESSAGE value="small fix" />
+    <MESSAGE value="delete any files" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete any files" />
+  </component>
+</project>
