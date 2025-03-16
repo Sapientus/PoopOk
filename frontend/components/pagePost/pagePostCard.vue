@@ -1,15 +1,14 @@
 <script setup lang="ts">
-const { post, user } = defineProps<{
+const { post } = defineProps<{
     post?: Object;
-    user?: Object;
 }>();
 </script>
 
 <template>
     <div class="pagePost-card">
         <div class="pagePost-card__header">
-            <UserAvatar :src="user.avatar" />
-            <PostHeader :user="user" :createdAt="post.createdAt" />
+            <UserAvatar :src="post.user.avatar" />
+            <PostHeader :user="post.user" :createdAt="post.createdAt" />
         </div>
         <div class="pagePost-card__col">
             <PostContent :content="post.content" />
